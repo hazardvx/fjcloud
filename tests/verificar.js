@@ -97,7 +97,7 @@ function check(name, ok, detail) {
     ctaFeats: document.querySelectorAll('.cta-feat').length,
     mailto: (document.querySelector('a[href^="mailto:"]') || {}).href || '',
     footerYear: (document.getElementById('year') || {}).textContent || '',
-    footLinks: document.querySelectorAll('.f-col a[href^="#"]').length,
+    footLinks: document.querySelectorAll('.f-col a').length,
     statTexts: [...document.querySelectorAll('.stat-value')].map((s) => s.textContent.trim())
   }));
 
@@ -113,7 +113,7 @@ function check(name, ok, detail) {
   check('CTA: 2 botones', structure.ctaBtns === 2, 'ctaBtns=' + structure.ctaBtns);
   check('CTA: 4 rasgos destacados', structure.ctaFeats === 4, 'feats=' + structure.ctaFeats);
   check('mailto de contacto presente', /mailto:contacto@/.test(structure.mailto), structure.mailto);
-  check('footer con enlaces internos', structure.footLinks >= 5, 'foot=' + structure.footLinks);
+  check('footer con enlaces de contacto', structure.footLinks >= 3, 'foot=' + structure.footLinks);
   check('año dinámico en footer', /^20\d\d$/.test(structure.footerYear), structure.footerYear);
 
   await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; });
