@@ -1,13 +1,18 @@
 # Caddyfile — FJcloud.app
-# Deploy: copiar a /etc/caddy/Caddyfile y ejecutar en el VPS:
-#   caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
-# Verificar: curl -sI http://<IP>/
+# Bloque añadido al Caddyfile de Contabo (13.140.186.234) SIN tocar el bloque
+# existente de JTAS (13-140-186-234.nip.io → /opt/jtas).
+# URL: https://fjcloud.13-140-186-234.nip.io/  (nip.io resuelve a la IP)
 #
-# Cuando haya dominio propio, reemplazar ":80" por:
+# Deploy en el VPS:
+#   cp /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak.fjcloud
+#   cat bloque >> /etc/caddy/Caddyfile
+#   caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
+#
+# Cuando haya dominio propio, reemplazar el host por:
 #   fjcloud.app, www.fjcloud.app
 # (Caddy emitirá certificado TLS automáticamente y redirigirá HTTP→HTTPS)
 
-:80 {
+fjcloud.13-140-186-234.nip.io {
 	root * /opt/fjcloud
 	encode gzip
 

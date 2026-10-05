@@ -10,14 +10,14 @@
 |---|---|
 | Nombre del sitio | FJcloud (FJcloud.app) |
 | Descripción (1 línea) | Landing page de servicios cloud: VPS, desarrollo web, sistemas y soporte técnico para empresas |
-| Repo GitHub | _pendiente_ |
-| VPS (IP / SSH key) | _pendiente_ (deploy futuro: "VPS y dominio momentáneo gratis", empezar local) |
-| Dominio (o nip.io de respaldo) | fjcloud.app (previsto) |
+| Repo GitHub | https://github.com/hazardvx/fjcloud (público, rama main) |
+| VPS (IP / SSH key) | Contabo 13.140.186.234, SSH key `~/.ssh/id_ed25519_fjcloud` (root), sitio en `/opt/fjcloud` |
+| Dominio (o nip.io de respaldo) | https://fjcloud.13-140-186-234.nip.io/ (activo); fjcloud.app (previsto) |
 | Supabase (URL + anon key) | _no aplica aún_ (fase 1 = solo landing) |
 | Cuenta admin de tests (email/pass) | _no aplica aún_ (fase 1 = solo landing) |
 | Módulos/pantallas necesarias | Landing (fase 1): hero, servicios VPS/desarrollo/sistemas/soporte, sectores, CTA, contacto, footer. Fase 2: Área de Clientes (Supabase) |
 
-> **Estado**: fase 1 (landing + PWA + tests E2E) COMPLETADA y verificada (53/53 checks). WhatsApp configurado (Francisco Mora 6700-8446 en botón principal; footer con Francisco Mora y Hazard.dev). Pendientes: repo GitHub, VPS/dominio para deploy.
+> **Estado**: fase 1 (landing + PWA + tests E2E) DESPLEGADA en https://fjcloud.13-140-186-234.nip.io/ (53/53 checks contra prod). Repo: github.com/hazardvx/fjcloud. WhatsApp configurado (Francisco Mora 6700-8446 en botón principal; footer con Francisco Mora y Hazard.dev). Coexistencia en VPS: bloque Caddy propio (`/etc/caddy/Caddyfile.bak.fjcloud` = backup previo), sitio JTAS intacto en 13-140-186-234.nip.io. Pendiente: dominio propio fjcloud.app.
 
 ---
 
