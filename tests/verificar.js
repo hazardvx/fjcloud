@@ -1,0 +1,249 @@
+const { chromium } = require('playwright');
+
+const BASE = process.env.BASE || 'http://127.0.0.1:3000';
+const results = [];
+
+function check(name, ok, detail) {
+  results.push({ name, ok: !!ok, detail: detail || '' });
+}
+
+(async () => {
+  const browser = await chromium.launch();
+  const consoleErrors = [];
+  const pageErrors = [];
+
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await ctx.newPage();
+  page.on('console', (m) => {
+    if (m.type() === 'error') consoleErrors.push(m.text());
+  });
+  page.on('pageerror', (e) => pageErrors.push(e.message));
+
+  const resp = await page.goto(BASE, { waitUntil: 'networkidle' });
+  check('HTTP 200 al cargar la página', resp && resp.status() === 200, 'status=' + (resp && resp.status()));
+  await page.waitForTimeout(500);
+
+  const headers = resp.headers();
+  check('Header CSP presente', !!headers['content-security-policy']);
+  check('CSP prohíbe framing (frame-ancestors)', (headers['content-security-policy'] || '').includes("frame-ancestors 'none'"));
+  check('Header X-Frame-Options DENY', headers['x-frame-options'] === 'DENY');
+  check('Header nosniff', headers['x-content-type-options'] === 'nosniff');
+  check('index sin caché (no-cache)', (headers['cache-control'] || '').includes('no-cache'));
+
+  const meta = await page.evaluate(() => ({
+    lang: document.documentElement.lang,
+    title: document.title,
+    desc: (document.querySelector('meta[name="description"]') || {}).content || '',
+    viewport: (document.querySelector('meta[name="viewport"]') || {}).content || '',
+    ogImg: (document.querySelector('meta[property="og:image"]') || {}).content || '',
+    manifest: !!document.querySelector('link[rel="manifest"]'),
+    favicon: !!document.querySelector('link[rel="icon"]'),
+    apple: !!document.querySelector('link[rel="apple-touch-icon"]'),
+    h1s: [...document.querySelectorAll('h1')].map((h) => h.innerText.trim().replace(/\s+/g, ' ')),
+    h2Count: document.querySelectorAll('h2').length,
+    dupIds: (() => {
+      const ids = [...document.querySelectorAll('[id]')].map((e) => e.id);
+      return ids.filter((id, i) => ids.indexOf(id) !== i);
+    })(),
+    anchors: [...document.querySelectorAll('a[href^="#"]')].map((a) => a.getAttribute('href')),
+    brokenAnchors: [...document.querySelectorAll('a[href^="#"]')]
+      .map((a) => a.getAttribute('href'))
+      .filter((h) => h.length > 1 && !document.getElementById(h.slice(1))),
+    svgNoAria: [...document.querySelectorAll('svg')]
+      .filter((s) => !s.closest('[aria-hidden="true"]') && s.getAttribute('aria-hidden') !== 'true' && !s.closest('.sprite') && !s.classList.contains('sprite'))
+      .map((s) => (s.parentElement && s.parentElement.className) || s.parentElement.tagName),
+    emptyNames: [...document.querySelectorAll('a, button')]
+      .filter((el) => !(el.innerText || '').trim() && !el.getAttribute('aria-label') && !el.getAttribute('title'))
+      .length,
+    headings: [...document.querySelectorAll('h1,h2,h3')].map((h) => +h.tagName[1]),
+    anchorsTotal: [...document.querySelectorAll('a[href^="#"]')].length
+  }));
+
+  check('html lang = es', meta.lang === 'es', 'lang=' + meta.lang);
+  check('title contiene FJcloud', /FJcloud/.test(meta.title), meta.title);
+  check('meta description presente', meta.desc.length > 40, meta.desc.slice(0, 60));
+  check('viewport meta presente', /width=device-width/.test(meta.viewport));
+  check('og:image referenciado', !!meta.ogImg);
+  check('manifest enlazado', meta.manifest);
+  check('favicon enlazado', meta.favicon);
+  check('apple-touch-icon enlazado', meta.apple);
+  check('exactamente un h1', meta.h1s.length === 1, JSON.stringify(meta.h1s));
+  check('h1 contiene "Creamos Sistemas Web"', /Creamos Sistemas Web/.test(meta.h1s[0] || ''));
+  check('varios h2 de sección', meta.h2Count >= 3, 'h2=' + meta.h2Count);
+  check('sin ids duplicados', meta.dupIds.length === 0, meta.dupIds.join(','));
+  check('anchors internos resuelven (sin # roto)', meta.brokenAnchors.length === 0, meta.brokenAnchors.join(','));
+  check('svgs decorativos con aria-hidden', meta.svgNoAria.length === 0, meta.svgNoAria.join(','));
+  check('enlaces/botones con nombre accesible', meta.emptyNames === 0, 'vacíos=' + meta.emptyNames);
+
+  let prev = 0;
+  let orderOk = true;
+  for (const lvl of meta.headings) {
+    if (lvl > prev + 1) orderOk = false;
+    prev = lvl;
+  }
+  check('orden de encabezados sin saltos', orderOk);
+
+  const structure = await page.evaluate(() => ({
+    navLinks: document.querySelectorAll('.nav a').length,
+    panelLinks: document.querySelectorAll('#navPanel ul a[href^="#"]').length,
+    checks: document.querySelectorAll('.checks li').length,
+    heroBtns: document.querySelectorAll('.hero-cta .btn').length,
+    stats: document.querySelectorAll('.stat').length,
+    cards: document.querySelectorAll('.card').length,
+    cardBullets: [...document.querySelectorAll('.card')].map((c) => c.querySelectorAll('.feat li').length),
+    cardBtns: [...document.querySelectorAll('.card .btn')].map((b) => b.innerText.trim()),
+    sectors: document.querySelectorAll('.sector').length,
+    ctaBtns: document.querySelectorAll('.cta-btns .btn').length,
+    ctaFeats: document.querySelectorAll('.cta-feat').length,
+    mailto: (document.querySelector('a[href^="mailto:"]') || {}).href || '',
+    footerYear: (document.getElementById('year') || {}).textContent || '',
+    footLinks: document.querySelectorAll('.f-col a[href^="#"]').length,
+    statTexts: [...document.querySelectorAll('.stat-value')].map((s) => s.textContent.trim())
+  }));
+
+  check('nav principal con 5 enlaces', structure.navLinks === 5, 'nav=' + structure.navLinks);
+  check('menú móvil con 5 enlaces', structure.panelLinks === 5, 'panel=' + structure.panelLinks);
+  check('hero: 4 puntos de lista', structure.checks === 4, 'checks=' + structure.checks);
+  check('hero: 2 botones CTA', structure.heroBtns === 2, 'btns=' + structure.heroBtns);
+  check('barra de stats con 5 items', structure.stats === 5, 'stats=' + structure.stats);
+  check('servicios: 4 tarjetas', structure.cards === 4, 'cards=' + structure.cards);
+  check('servicios: 4 bullets por tarjeta', structure.cardBullets.every((n) => n === 4), structure.cardBullets.join(','));
+  check('servicios: 4 botones CTA', structure.cardBtns.length === 4 && structure.cardBtns.every((b) => b.length > 3), structure.cardBtns.join(' | '));
+  check('sectores: 8 opciones', structure.sectors === 8, 'sectors=' + structure.sectors);
+  check('CTA: 2 botones', structure.ctaBtns === 2, 'ctaBtns=' + structure.ctaBtns);
+  check('CTA: 4 rasgos destacados', structure.ctaFeats === 4, 'feats=' + structure.ctaFeats);
+  check('mailto de contacto presente', /mailto:contacto@/.test(structure.mailto), structure.mailto);
+  check('footer con enlaces internos', structure.footLinks >= 5, 'foot=' + structure.footLinks);
+  check('año dinámico en footer', /^20\d\d$/.test(structure.footerYear), structure.footerYear);
+
+  await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; });
+  await page.evaluate(() => { window.scrollTo(0, document.getElementById('sectores').offsetTop - 200); });
+  await page.waitForTimeout(1200);
+  const revealed = await page.evaluate(() => {
+    const els = [...document.querySelectorAll('#sectores .reveal')];
+    return { total: els.length, inn: els.filter((e) => e.classList.contains('in')).length };
+  });
+  check('reveal al hacer scroll en sectores', revealed.total === revealed.inn && revealed.total > 0, revealed.inn + '/' + revealed.total);
+
+  await page.evaluate(() => { window.scrollTo(0, 0); });
+  await page.waitForTimeout(400);
+  const overflow = await page.evaluate(() => ({
+    sw: document.documentElement.scrollWidth,
+    cw: document.documentElement.clientWidth
+  }));
+  check('sin scroll horizontal en desktop', overflow.sw <= overflow.cw + 1, overflow.sw + ' vs ' + overflow.cw);
+
+  const fontsOk = await page.evaluate(async () => {
+    await document.fonts.ready;
+    return {
+      poppins: document.fonts.check('700 20px Poppins'),
+      inter: document.fonts.check('400 16px Inter'),
+      caveat: document.fonts.check('700 30px Caveat')
+    };
+  });
+  check('fuente Poppins cargada', fontsOk.poppins);
+  check('fuente Inter cargada', fontsOk.inter);
+  check('fuente Caveat cargada', fontsOk.caveat);
+
+  const swInfo = await page.evaluate(async () => {
+    if (!('serviceWorker' in navigator)) return { reg: false };
+    const reg = await navigator.serviceWorker.getRegistration();
+    return { reg: !!reg, active: !!(reg && reg.active) };
+  });
+  check('service worker registrado', swInfo.reg, JSON.stringify(swInfo));
+
+  const anchorsOk = await page.evaluate(() => {
+    const ids = ['inicio', 'vps', 'desarrollo', 'sistemas', 'soporte', 'servicios', 'sectores', 'contacto'];
+    return ids.every((id) => !!document.getElementById(id));
+  });
+  check('destinos de navegación existentes', anchorsOk);
+
+  const ctxRM = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+  const pageRM = await ctxRM.newPage();
+  await pageRM.goto(BASE, { waitUntil: 'networkidle' });
+  await pageRM.waitForTimeout(400);
+  const rm = await pageRM.evaluate(() => ({
+    all: document.querySelectorAll('.reveal').length,
+    inn: document.querySelectorAll('.reveal.in').length,
+    stats: [...document.querySelectorAll('.stat-value[data-count]')].map((s) => s.textContent.trim())
+  }));
+  check('prefers-reduced-motion: todo visible sin animar', rm.all === rm.inn && rm.all > 0, rm.inn + '/' + rm.all);
+  check('contadores con valores finales (+100, +200, 99.9%)',
+    rm.stats[0] === '+100' && rm.stats[1] === '+200' && rm.stats[2] === '99.9%',
+    rm.stats.join(','));
+  await ctxRM.close();
+
+  const ctxM = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const pageM = await ctxM.newPage();
+  await pageM.goto(BASE, { waitUntil: 'networkidle' });
+  await pageM.waitForTimeout(400);
+
+  const mOverflow = await pageM.evaluate(() => ({
+    sw: document.documentElement.scrollWidth,
+    cw: document.documentElement.clientWidth
+  }));
+  check('sin scroll horizontal en móvil 390px', mOverflow.sw <= mOverflow.cw + 1, mOverflow.sw + ' vs ' + mOverflow.cw);
+
+  const burgerVisible = await pageM.isVisible('#burger');
+  check('burger visible en móvil', burgerVisible);
+
+  await pageM.click('#burger');
+  await pageM.waitForTimeout(350);
+  const menuOpen = await pageM.evaluate(() => ({
+    expanded: document.getElementById('burger').getAttribute('aria-expanded'),
+    panelVisible: !!document.querySelector('#navPanel.open')
+  }));
+  check('burger abre el menú (aria-expanded=true)', menuOpen.expanded === 'true' && menuOpen.panelVisible, JSON.stringify(menuOpen));
+
+  await pageM.click('#navPanel a[href="#desarrollo"]');
+  await pageM.waitForTimeout(900);
+  const menuClosed = await pageM.evaluate(() => ({
+    expanded: document.getElementById('burger').getAttribute('aria-expanded'),
+    panelVisible: !!document.querySelector('#navPanel.open')
+  }));
+  check('seleccionar enlace cierra el menú', menuClosed.expanded === 'false' && !menuClosed.panelVisible);
+
+  const stageScaled = await pageM.evaluate(() => {
+    const wrap = document.querySelector('.stage-wrap');
+    return wrap ? Math.round(wrap.getBoundingClientRect().height) : 0;
+  });
+  check('escena del hero escalada en móvil (no desborda)', stageScaled > 150 && stageScaled < 500, 'h=' + stageScaled);
+  await ctxM.close();
+
+  const skip = await (async () => {
+    const data = await page.evaluate(() => {
+      const a = document.querySelector('.skip-link');
+      if (!a) return null;
+      const target = document.getElementById(a.getAttribute('href').slice(1));
+      a.focus();
+      return { exists: !!target, focused: document.activeElement === a };
+    });
+    if (!data) return { ok: false };
+    await page.waitForTimeout(400);
+    const top = await page.evaluate(() => document.querySelector('.skip-link').getBoundingClientRect().top);
+    return { ok: data.exists, focused: data.focused, top };
+  })();
+  check('skip-link visible al enfocarse', skip.ok && skip.focused && skip.top >= 0, JSON.stringify(skip));
+
+  const goodErrors = consoleErrors.filter((e) => !/favicon|og\.png/i.test(e));
+  check('sin errores de consola', goodErrors.length === 0, goodErrors.join(' | ').slice(0, 200));
+  check('sin errores de página (pageerror)', pageErrors.length === 0, pageErrors.join(' | ').slice(0, 200));
+
+  await ctx.close();
+  await browser.close();
+
+  const passed = results.filter((r) => r.ok).length;
+  const failed = results.filter((r) => !r.ok);
+  for (const r of results) {
+    console.log((r.ok ? '  ok  ' : ' FAIL ') + r.name + (r.ok || !r.detail ? '' : '  → ' + r.detail));
+  }
+  console.log('\n' + passed + '/' + results.length + ' checks OK');
+  if (failed.length) {
+    console.log('FALLAN:');
+    failed.forEach((f) => console.log('  - ' + f.name + (f.detail ? ' → ' + f.detail : '')));
+    process.exit(1);
+  }
+})().catch((e) => {
+  console.error('ERROR SUITE:', e);
+  process.exit(1);
+});

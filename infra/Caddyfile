@@ -1,0 +1,35 @@
+# Caddyfile — FJcloud.app
+# Deploy: copiar a /etc/caddy/Caddyfile y ejecutar en el VPS:
+#   caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
+# Verificar: curl -sI http://<IP>/
+#
+# Cuando haya dominio propio, reemplazar ":80" por:
+#   fjcloud.app, www.fjcloud.app
+# (Caddy emitirá certificado TLS automáticamente y redirigirá HTTP→HTTPS)
+
+:80 {
+	root * /opt/fjcloud
+	encode gzip
+
+	header {
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+		Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo='; connect-src 'self'; manifest-src 'self'"
+	}
+
+	# NUNCA max-age puro en HTML/sw (usuarios con archivos viejos hasta 24 h)
+	@html path *.html / 
+	header @html Cache-Control "no-cache"
+	@sw path /sw.js
+	header @sw Cache-Control "no-cache"
+	@manifest path /manifest.json
+	header @manifest Cache-Control "no-cache"
+
+	# Státicos: 60 s + revalidate en background
+	@assets path /js/* /fonts/* /icons/*
+	header @assets Cache-Control "max-age=60, stale-while-revalidate=86400"
+
+	file_server
+}

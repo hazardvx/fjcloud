@@ -1,0 +1,31 @@
+{
+  "name": "FJcloud.app — Soluciones web y sistemas en la nube",
+  "short_name": "FJcloud",
+  "description": "Soluciones digitales modernas, seguras y en la nube para todo tipo de empresas.",
+  "lang": "es",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#061324",
+  "theme_color": "#061324",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

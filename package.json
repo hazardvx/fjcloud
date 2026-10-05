@@ -1,0 +1,15 @@
+{
+  "name": "fjcloud-landing",
+  "version": "1.0.0",
+  "description": "Landing page de FJcloud.app — soluciones web, VPS y sistemas empresariales",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "test:e2e": "node tests/verificar.js",
+    "icons": "node tools/gen-icons.mjs"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}
