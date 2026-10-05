@@ -113,9 +113,12 @@
     var navObs = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          navLinks.forEach(function (l) { l.classList.remove('active'); });
+          navLinks.forEach(function (l) { l.classList.remove('active'); l.removeAttribute('aria-current'); });
           var match = sections.find(function (s) { return s.el === entry.target; });
-          if (match) match.link.classList.add('active');
+          if (match) {
+            match.link.classList.add('active');
+            match.link.setAttribute('aria-current', 'true');
+          }
         }
       });
     }, { rootMargin: '-38% 0px -55% 0px', threshold: 0 });

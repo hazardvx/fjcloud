@@ -15,6 +15,9 @@
   <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
+  <link rel="preload" href="fonts/poppins-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/poppins-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
   <style>
     @font-face{font-family:'Poppins';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/poppins-600.woff2') format('woff2')}
     @font-face{font-family:'Poppins';font-style:normal;font-weight:700;font-display:swap;src:url('fonts/poppins-700.woff2') format('woff2')}
@@ -66,9 +69,10 @@
     img,svg{display:block;max-width:100%}
     a{color:inherit;text-decoration:none}
     ul{margin:0;padding:0;list-style:none}
-    h1,h2,h3{margin:0;font-family:var(--font-d);line-height:1.15}
+    h1,h2,h3{margin:0;font-family:var(--font-d);line-height:1.15;text-wrap:balance}
     p{margin:0}
     button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
+    a,button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 
     .container{width:min(var(--container),100% - 40px);margin-inline:auto}
     section[id],article[id]{scroll-margin-top:calc(var(--header-h) + 16px)}
@@ -302,6 +306,7 @@
     .stat-value{
       display:block;font-family:var(--font-d);font-weight:800;font-size:25px;
       color:var(--ink);line-height:1.1;letter-spacing:-.01em;
+      font-variant-numeric:tabular-nums;
     }
     .stat-value.is-text{font-size:17.5px;font-weight:700}
     .stat-label{display:block;font-size:12.8px;color:var(--slate);font-weight:500;margin-top:3px;line-height:1.35}
@@ -608,11 +613,11 @@
         <svg viewBox="0 0 52 44" aria-hidden="true"><use href="#logo-mark"/></svg>
         <span>
           <span class="brand-name">FJcloud<span class="dot">.app</span></span>
-          <span class="brand-tag">Soluciones web para tu empresa</span>
+          <span class="brand-tag">Tu tecnología en la nube</span>
         </span>
       </a>
       <nav class="nav" aria-label="Navegación principal">
-        <a href="#inicio" class="active">Inicio</a>
+        <a href="#inicio" class="active" aria-current="true">Inicio</a>
         <a href="#vps">Servidores VPS</a>
         <a href="#desarrollo">Desarrollo Web</a>
         <a href="#sistemas">Sistemas Empresariales</a>
@@ -1150,7 +1155,7 @@
             <span class="brand-tag">Tu tecnología en la nube</span>
           </span>
         </span>
-        <p>Soluciones digitales modernas, seguras y en la nube para todo tipo de empresas.</p>
+        <p>Diseñamos, desarrollamos y hospedamos la presencia digital de tu empresa, con soporte cercano en cada etapa.</p>
       </div>
       <nav class="f-col" aria-label="Enlaces del pie de página">
         <h3>Navegación</h3>
@@ -1168,7 +1173,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mail"/></svg>
           contacto@fjcloud.app
         </a>
-        <a class="f-mail" href="https://wa.me/50667008446?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20los%20servicios%20de%20FJcloud.app." target="_blank" rel="noopener">
+        <a class="f-mail js-wa" href="https://wa.me/50667008446?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20los%20servicios%20de%20FJcloud.app." target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
           WhatsApp · Francisco Mora · 6700-8446
         </a>
@@ -1176,12 +1181,11 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
           Hazard.dev · 6219-0387
         </a>
-        <p class="f-note">Respondemos en menos de 24 horas, de lunes a viernes. Soporte técnico en español.</p>
+        <p class="f-note">Respondemos en menos de 24&nbsp;horas, de lunes a viernes. Soporte técnico en español.</p>
       </div>
     </div>
     <div class="container f-bottom">
-      <span>© <span id="year">2026</span> FJcloud.app — Tu tecnología en la nube</span>
-      <span>Soluciones web, VPS y sistemas empresariales</span>
+      <span>© <span id="year">2026</span> FJcloud.app — Todos los derechos reservados</span>
     </div>
   </footer>
 
