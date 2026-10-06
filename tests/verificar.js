@@ -84,8 +84,6 @@ function check(name, ok, detail) {
   check('orden de encabezados sin saltos', orderOk);
 
   const structure = await page.evaluate(() => ({
-    navLinks: document.querySelectorAll('.nav a').length,
-    panelLinks: document.querySelectorAll('#navPanel ul a[href^="#"]').length,
     checks: document.querySelectorAll('.checks li').length,
     heroBtns: document.querySelectorAll('.hero-cta .btn').length,
     stats: document.querySelectorAll('.stat').length,
@@ -99,10 +97,8 @@ function check(name, ok, detail) {
     statTexts: [...document.querySelectorAll('.stat-value')].map((s) => s.textContent.trim())
   }));
 
-  check('nav principal con 5 enlaces', structure.navLinks === 5, 'nav=' + structure.navLinks);
-  check('menú móvil con 5 enlaces', structure.panelLinks === 5, 'panel=' + structure.panelLinks);
   check('hero: 4 puntos de lista', structure.checks === 4, 'checks=' + structure.checks);
-  check('hero: 2 botones CTA', structure.heroBtns === 2, 'btns=' + structure.heroBtns);
+  check('hero: 1 botón CTA', structure.heroBtns === 1, 'btns=' + structure.heroBtns);
   check('barra de stats con 3 items', structure.stats === 3, 'stats=' + structure.stats);
   check('hero: lista de 4 servicios con ids',
     structure.heroSvc.length === 4 && structure.heroSvc.join(',') === 'desarrollo,sistemas,vps,soporte',
@@ -182,24 +178,12 @@ function check(name, ok, detail) {
   }));
   check('sin scroll horizontal en móvil 390px', mOverflow.sw <= mOverflow.cw + 1, mOverflow.sw + ' vs ' + mOverflow.cw);
 
-  const burgerVisible = await pageM.isVisible('#burger');
-  check('burger visible en móvil', burgerVisible);
-
-  await pageM.click('#burger');
-  await pageM.waitForTimeout(350);
-  const menuOpen = await pageM.evaluate(() => ({
-    expanded: document.getElementById('burger').getAttribute('aria-expanded'),
-    panelVisible: !!document.querySelector('#navPanel.open')
+  const noMenu = await pageM.evaluate(() => ({
+    burger: !!document.getElementById('burger'),
+    nav: !!document.querySelector('.nav'),
+    panel: !!document.getElementById('navPanel')
   }));
-  check('burger abre el menú (aria-expanded=true)', menuOpen.expanded === 'true' && menuOpen.panelVisible, JSON.stringify(menuOpen));
-
-  await pageM.click('#navPanel a[href="#desarrollo"]');
-  await pageM.waitForTimeout(900);
-  const menuClosed = await pageM.evaluate(() => ({
-    expanded: document.getElementById('burger').getAttribute('aria-expanded'),
-    panelVisible: !!document.querySelector('#navPanel.open')
-  }));
-  check('seleccionar enlace cierra el menú', menuClosed.expanded === 'false' && !menuClosed.panelVisible);
+  check('móvil sin menú (sin burger ni panel)', !noMenu.burger && !noMenu.nav && !noMenu.panel, JSON.stringify(noMenu));
 
   const stageScaled = await pageM.evaluate(() => {
     const wrap = document.querySelector('.stage-wrap');

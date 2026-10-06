@@ -126,20 +126,8 @@
     .brand-name .dot{color:var(--sky)}
     .brand-tag{display:block;font-size:8.5px;letter-spacing:.18em;color:rgba(255,255,255,.55);font-weight:500;margin-top:4px;text-transform:uppercase}
 
-    .nav{display:flex;align-items:center;gap:26px;margin-inline:auto}
-    .nav a{
-      position:relative;color:rgba(255,255,255,.82);font-size:15px;font-weight:500;
-      padding:8px 0;transition:color .2s ease;
-    }
-    .nav a::after{
-      content:"";position:absolute;left:0;right:0;bottom:0;height:2.5px;border-radius:2px;
-      background:var(--sky);transform:scaleX(0);transform-origin:left;transition:transform .25s ease;
-    }
-    .nav a:hover,.nav a.active{color:#fff}
-    .nav a:hover::after,.nav a.active::after{transform:scaleX(1)}
-
     .btn-clientes{
-      display:inline-flex;align-items:center;gap:9px;flex:none;
+      display:inline-flex;align-items:center;gap:9px;flex:none;margin-left:auto;
       background:var(--blue);color:#fff;font-weight:600;font-size:15px;
       padding:12px 22px;border-radius:11px;min-height:46px;
       box-shadow:0 8px 22px rgba(28,100,240,.4);
@@ -147,29 +135,6 @@
     }
     .btn-clientes:hover{background:var(--blue-hov);transform:translateY(-2px)}
     .btn-clientes svg{width:17px;height:17px;fill:currentColor}
-
-    .burger{display:none;position:relative;width:46px;height:46px;border-radius:11px;background:rgba(255,255,255,.08);flex:none}
-    .burger span{position:absolute;left:13px;right:13px;height:2.2px;background:#fff;border-radius:2px;transition:transform .28s ease,opacity .2s ease,top .28s ease}
-    .burger span:nth-child(1){top:16px}
-    .burger span:nth-child(2){top:22px}
-    .burger span:nth-child(3){top:28px}
-    .burger[aria-expanded="true"] span:nth-child(1){top:22px;transform:rotate(45deg)}
-    .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
-    .burger[aria-expanded="true"] span:nth-child(3){top:22px;transform:rotate(-45deg)}
-
-    .nav-panel{
-      display:none;position:absolute;top:100%;left:0;right:0;
-      background:rgba(6,19,36,.97);backdrop-filter:blur(14px);
-      border-bottom:1px solid rgba(255,255,255,.1);
-      padding:14px 20px 22px;
-      box-shadow:0 24px 40px rgba(4,14,28,.5);
-    }
-    .nav-panel.open{display:block;animation:panelIn .28s ease}
-    @keyframes panelIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
-    .nav-panel ul{display:grid;gap:4px}
-    .nav-panel a{display:block;padding:13px 10px;color:rgba(255,255,255,.88);font-size:16.5px;font-weight:500;border-radius:10px}
-    .nav-panel a:hover{background:rgba(255,255,255,.07);color:#fff}
-    .nav-panel .btn-clientes{width:100%;margin-top:14px;justify-content:center}
 
     .hero{
       position:relative;overflow:hidden;
@@ -393,13 +358,10 @@
     @media (max-width:1180px){.stage-wrap{--s:.85}}
     @media (max-width:1100px){
       .stage-wrap{--s:.79}
-      .nav{gap:18px}
-      .nav a{font-size:14px}
     }
     @media (max-width:1020px){.stage-wrap{--s:.75}}
     @media (max-width:980px){
-      .nav,.header-inner>.btn-clientes{display:none}
-      .burger{display:block;margin-left:auto}
+      .header-inner>.btn-clientes{display:none}
       .hero-inner{grid-template-columns:minmax(0,1fr);gap:20px}
       .hero{padding-top:calc(var(--header-h) + 40px)}
       .hero-copy{text-align:center}
@@ -594,29 +556,6 @@
           <span class="brand-tag">Tu tecnología en la nube</span>
         </span>
       </a>
-      <nav class="nav" aria-label="Navegación principal">
-        <a href="#inicio" class="active" aria-current="true">Inicio</a>
-        <a href="#vps">Servidores VPS</a>
-        <a href="#desarrollo">Desarrollo Web</a>
-        <a href="#sistemas">Sistemas Empresariales</a>
-        <a href="#soporte">Soporte</a>
-      </nav>
-      <a class="btn-clientes js-clientes" href="#contacto">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-person"/></svg>
-        Área de Clientes
-      </a>
-      <button class="burger" id="burger" aria-expanded="false" aria-controls="navPanel" aria-label="Abrir menú de navegación">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-    <div class="nav-panel" id="navPanel">
-      <ul>
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#vps">Servidores VPS</a></li>
-        <li><a href="#desarrollo">Desarrollo Web</a></li>
-        <li><a href="#sistemas">Sistemas Empresariales</a></li>
-        <li><a href="#soporte">Soporte</a></li>
-      </ul>
       <a class="btn-clientes js-clientes" href="#contacto">
         <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-person"/></svg>
         Área de Clientes
@@ -642,7 +581,6 @@
           </ul>
           <div class="hero-cta">
             <a class="btn btn-primary js-wa" href="#contacto">Solicitar un Sistema <svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-            <a class="btn btn-ghost js-wa" href="#contacto">Ver Servidores VPS</a>
           </div>
         </div>
 
@@ -876,11 +814,11 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mail"/></svg>
           contacto@fjcloud.app
         </a>
-        <a class="f-mail js-wa" href="https://wa.me/50667008446?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20los%20servicios%20de%20FJcloud.app." target="_blank" rel="noopener">
+        <a class="f-mail js-wa" href="https://wa.me/50767008446?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20los%20servicios%20de%20FJcloud.app." target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
           WhatsApp · Francisco Mora · 6700-8446
         </a>
-        <a class="f-mail" href="https://wa.me/50662190387" target="_blank" rel="noopener">
+        <a class="f-mail" href="https://wa.me/50762190387" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
           Hazard.dev · 6219-0387
         </a>
