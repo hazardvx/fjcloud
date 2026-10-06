@@ -128,6 +128,33 @@ function check(name, ok, detail) {
   check('escena con entrada por piezas (stageIn + noteIn)', /@keyframes stageIn/.test(cssText) && /@keyframes noteIn/.test(cssText));
   check('nube flotante (@keyframes bob)', /@keyframes bob/.test(cssText));
 
+  const mainJsTxt = await page.evaluate(() => fetch('js/main.js').then((r) => r.text()).catch(() => ''));
+  check('main.js servido con número nuevo (50769527810)',
+    /50769527810/.test(mainJsTxt) && !/50767008446/.test(mainJsTxt),
+    mainJsTxt.slice(0, 60));
+
+  const openWa = async (sel) => {
+    try {
+      const [popup] = await Promise.all([
+        page.waitForEvent('popup', { timeout: 5000 }),
+        page.click(sel)
+      ]);
+      await popup.waitForURL(/wa\.me/, { timeout: 5000 }).catch(() => {});
+      const url = popup.url();
+      await popup.close().catch(() => {});
+      return url;
+    } catch (e) {
+      return 'no-popup: ' + e.message;
+    }
+  };
+  const isFjWa = (u) =>
+    u.startsWith('https://wa.me/50769527810') ||
+    /api\.whatsapp\.com\/send\/\?phone=50769527810\b/.test(u);
+  const heroWa = await openWa('.hero-cta .btn');
+  check('botón hero abre wa.me/50769527810', isFjWa(heroWa), heroWa);
+  const ctaWa = await openWa('.cta-btns .btn');
+  check('botón CTA abre wa.me/50769527810', isFjWa(ctaWa), ctaWa);
+
   await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; });
   await page.evaluate(() => { window.scrollTo(0, document.getElementById('sectores').offsetTop - 200); });
   await page.waitForTimeout(1200);
