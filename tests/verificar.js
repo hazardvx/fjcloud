@@ -90,6 +90,7 @@ function check(name, ok, detail) {
     heroSvc: [...document.querySelectorAll('.hero .checks li')].map((l) => l.id),
     sectors: document.querySelectorAll('.sector').length,
     ctaBtns: document.querySelectorAll('.cta-btns .btn').length,
+    ctaNote: (document.querySelector('.cta-note') || {}).textContent || '',
     ctaFeats: document.querySelectorAll('.cta-feat').length,
     mailto: (document.querySelector('a[href^="mailto:"]') || {}).href || '',
     footerYear: (document.getElementById('year') || {}).textContent || '',
@@ -104,7 +105,8 @@ function check(name, ok, detail) {
     structure.heroSvc.length === 4 && structure.heroSvc.join(',') === 'desarrollo,sistemas,vps,soporte',
     structure.heroSvc.join(','));
   check('sectores: 8 opciones', structure.sectors === 8, 'sectors=' + structure.sectors);
-  check('CTA: 2 botones', structure.ctaBtns === 2, 'ctaBtns=' + structure.ctaBtns);
+  check('CTA: 1 botón WhatsApp', structure.ctaBtns === 1, 'ctaBtns=' + structure.ctaBtns);
+  check('CTA: nota de cotización', /cotización para la creación/i.test(structure.ctaNote), structure.ctaNote);
   check('CTA: 4 rasgos destacados', structure.ctaFeats === 4, 'feats=' + structure.ctaFeats);
   check('mailto de contacto presente', /mailto:contacto@/.test(structure.mailto), structure.mailto);
   check('footer con enlaces de contacto', structure.footLinks >= 3, 'foot=' + structure.footLinks);
