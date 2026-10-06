@@ -101,6 +101,7 @@
     .btn-ghost{border:1.6px solid rgba(255,255,255,.4);color:#fff;background:rgba(255,255,255,.04)}
     .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.1);transform:translateY(-2px)}
     .btn-block{width:100%}
+    .btn:active{transform:scale(.97);transition-duration:.16s}
 
     .ico{width:26px;height:26px;flex:none}
 
@@ -134,6 +135,7 @@
       transition:background .22s ease,transform .22s ease;
     }
     .btn-clientes:hover{background:var(--blue-hov);transform:translateY(-2px)}
+    .btn-clientes:active{transform:scale(.97);transition-duration:.16s}
     .btn-clientes svg{width:17px;height:17px;fill:currentColor}
 
     .hero{
@@ -180,13 +182,33 @@
     .hero-cta{display:flex;flex-wrap:wrap;gap:16px}
     .hero-cta .btn{min-height:58px;padding:17px 36px;font-size:16.5px;border-radius:14px}
 
+    .js .hero-copy>h1,.js .hero-sub,.js .checks li,.js .hero-cta{opacity:0;animation:rise .5s cubic-bezier(.23,1,.32,1) both}
+    .js .hero-sub{animation-delay:.06s}
+    .js .checks li:nth-child(1){animation-delay:.12s}
+    .js .checks li:nth-child(2){animation-delay:.16s}
+    .js .checks li:nth-child(3){animation-delay:.20s}
+    .js .checks li:nth-child(4){animation-delay:.24s}
+    .js .hero-cta{animation-delay:.30s}
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
     .stage-wrap{--s:1;width:100%;height:calc(470px * var(--s));display:flex;justify-content:center;min-width:0}
     .stage{
       position:relative;width:620px;height:470px;flex:none;
       transform:scale(var(--s));transform-origin:top center;
     }
     .stage-logo{position:absolute;top:-8px;left:116px;width:212px;filter:drop-shadow(0 12px 30px rgba(3,12,24,.6))}
-    .stage-logo svg{width:100%;height:auto}
+    .stage-logo svg{width:100%;height:auto;animation:bob 3.5s ease-in-out 1s infinite}
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+
+    .js .stage>.stage-logo,.js .stage>.monitor,.js .stage>.laptop,.js .stage>.phone,.js .stage>.script-note{
+      opacity:0;animation:stageIn .5s cubic-bezier(.22,1,.36,1) both;transform-origin:50% 100%;
+    }
+    .js .stage>.monitor{animation-delay:.07s}
+    .js .stage>.laptop{animation-delay:.14s}
+    .js .stage>.phone{animation-delay:.21s}
+    .js .stage>.script-note{animation-name:noteIn;animation-delay:.28s}
+    @keyframes stageIn{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
+    @keyframes noteIn{from{opacity:0;transform:rotate(8deg) translateY(16px) scale(.96)}to{opacity:1;transform:rotate(8deg)}}
 
     .monitor{position:absolute;top:140px;left:0;width:442px}
     .m-shell{
@@ -416,8 +438,9 @@
 
     @media (prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}
-      *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important}
+      *,*::before,*::after{animation-duration:.001s !important;animation-delay:0s !important;transition-duration:.001s !important;transition-delay:0s !important}
       .js .reveal{opacity:1;transform:none}
+      .stage-logo svg{animation:none !important}
     }
   </style>
   <script>document.documentElement.classList.add('js')</script>
@@ -696,21 +719,21 @@
 
     <div class="stats-wrap container">
       <div class="stats" role="list" aria-label="Garantías del servicio">
-        <div class="stat" role="listitem">
+        <div class="stat reveal" role="listitem" style="--d:.05s">
           <svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg>
           <div>
             <span class="stat-value" data-count="99.9" data-decimals="1" data-suffix="%">99.9%</span>
             <span class="stat-label">Disponibilidad</span>
           </div>
         </div>
-        <div class="stat" role="listitem">
+        <div class="stat reveal" role="listitem" style="--d:.1s">
           <svg class="ico" aria-hidden="true"><use href="#i-headset"/></svg>
           <div>
             <span class="stat-value is-text">Soporte</span>
             <span class="stat-label">En Español</span>
           </div>
         </div>
-        <div class="stat" role="listitem">
+        <div class="stat reveal" role="listitem" style="--d:.15s">
           <svg class="ico" aria-hidden="true"><use href="#i-server"/></svg>
           <div>
             <span class="stat-value is-text">Infraestructura</span>

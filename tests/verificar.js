@@ -112,6 +112,22 @@ function check(name, ok, detail) {
   check('footer con enlaces de contacto', structure.footLinks >= 3, 'foot=' + structure.footLinks);
   check('año dinámico en footer', /^20\d\d$/.test(structure.footerYear), structure.footerYear);
 
+  await page.waitForTimeout(900);
+  const entrance = await page.evaluate(() => {
+    const sels = ['.hero-copy>h1', '.hero-sub', '.hero-cta', '.stage-logo', '.monitor', '.laptop', '.phone', '.script-note'];
+    return sels.map((s) => {
+      const el = document.querySelector(s);
+      return el ? getComputedStyle(el).opacity : 'missing';
+    });
+  });
+  check('entradas del hero asentadas (opacity 1)', entrance.length === 8 && entrance.every((o) => o === '1'), entrance.join(','));
+
+  const cssText = await page.evaluate(() => [...document.querySelectorAll('style')].map((s) => s.textContent).join('\n'));
+  check('botones con press feedback (.btn:active)', /\.btn:active\s*\{[^}]*scale\(\.97\)/.test(cssText));
+  check('hero con entrada escalonada (@keyframes rise)', /@keyframes rise/.test(cssText) && /hero-copy>h1[^{]*\{[^}]*animation:rise/.test(cssText));
+  check('escena con entrada por piezas (stageIn + noteIn)', /@keyframes stageIn/.test(cssText) && /@keyframes noteIn/.test(cssText));
+  check('nube flotante (@keyframes bob)', /@keyframes bob/.test(cssText));
+
   await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; });
   await page.evaluate(() => { window.scrollTo(0, document.getElementById('sectores').offsetTop - 200); });
   await page.waitForTimeout(1200);
@@ -161,12 +177,19 @@ function check(name, ok, detail) {
   const rm = await pageRM.evaluate(() => ({
     all: document.querySelectorAll('.reveal').length,
     inn: document.querySelectorAll('.reveal.in').length,
-    stats: [...document.querySelectorAll('.stat-value[data-count]')].map((s) => s.textContent.trim())
+    stats: [...document.querySelectorAll('.stat-value[data-count]')].map((s) => s.textContent.trim()),
+    heroOp: getComputedStyle(document.querySelector('.hero-copy>h1')).opacity,
+    stageOps: ['.stage-logo', '.monitor', '.script-note'].map((s) => getComputedStyle(document.querySelector(s)).opacity),
+    noteT: getComputedStyle(document.querySelector('.script-note')).transform
   }));
   check('prefers-reduced-motion: todo visible sin animar', rm.all === rm.inn && rm.all > 0, rm.inn + '/' + rm.all);
   check('contadores con valor final (99.9%)',
     rm.stats.length === 1 && rm.stats[0] === '99.9%',
     rm.stats.join(','));
+  check('RM: hero y escena visibles al instante',
+    rm.heroOp === '1' && rm.stageOps.every((o) => o === '1'),
+    rm.heroOp + ' | ' + rm.stageOps.join(','));
+  check('RM: nota conserva su rotación', !!rm.noteT && rm.noteT !== 'none', rm.noteT);
   await ctxRM.close();
 
   const ctxM = await browser.newContext({ viewport: { width: 390, height: 844 } });
