@@ -17,7 +17,7 @@
 | Cuenta admin de tests (email/pass) | _no aplica aún_ (fase 1 = solo landing) |
 | Módulos/pantallas necesarias | Landing (fase 1): hero, servicios VPS/desarrollo/sistemas/soporte, sectores, CTA, contacto, footer. Fase 2: Área de Clientes (Supabase) |
 
-> **Estado**: fase 1 (landing + PWA + tests E2E) DESPLEGADA en https://fjcloud.13-140-186-234.nip.io/ (53/53 checks contra prod). Repo: github.com/hazardvx/fjcloud. WhatsApp configurado (Francisco Mora 6700-8446 en botón principal; footer con Francisco Mora y Hazard.dev). Coexistencia en VPS: bloque Caddy propio (`/etc/caddy/Caddyfile.bak.fjcloud` = backup previo), sitio JTAS intacto en 13-140-186-234.nip.io. Pendiente: dominio propio fjcloud.app.
+> **Estado**: fase 1 (landing + PWA + tests E2E) DESPLEGADA en https://fjcloud.13-140-186-234.nip.io/ (53/53 checks contra prod). Repo: github.com/hazardvx/fjcloud. WhatsApp configurado (FMORAEDITION +507 6952-7810 en botón principal; footer con FMORAEDITION y Hazard.dev). Coexistencia en VPS: bloque Caddy propio (`/etc/caddy/Caddyfile.bak.fjcloud` = backup previo), sitio JTAS intacto en 13-140-186-234.nip.io. Pendiente: dominio propio fjcloud.app.
 
 ---
 

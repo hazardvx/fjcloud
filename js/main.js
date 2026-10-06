@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var WA_NUMERO = '50767008446';
+  var WA_NUMERO = '50769527810';
   var WA_MENSAJE = 'Hola, quiero información sobre los servicios de FJcloud.app.';
 
   var header = document.getElementById('siteHeader');
