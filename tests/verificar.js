@@ -86,6 +86,7 @@ function check(name, ok, detail) {
   const structure = await page.evaluate(() => ({
     checks: document.querySelectorAll('.checks li').length,
     heroBtns: document.querySelectorAll('.hero-cta .btn').length,
+    heroBtnWa: !!document.querySelector('.hero-cta .btn .wa-ico'),
     stats: document.querySelectorAll('.stat').length,
     heroSvc: [...document.querySelectorAll('.hero .checks li')].map((l) => l.id),
     sectors: document.querySelectorAll('.sector').length,
@@ -100,6 +101,7 @@ function check(name, ok, detail) {
 
   check('hero: 4 puntos de lista', structure.checks === 4, 'checks=' + structure.checks);
   check('hero: 1 botón CTA', structure.heroBtns === 1, 'btns=' + structure.heroBtns);
+  check('hero: botón CTA con ícono de WhatsApp', structure.heroBtnWa);
   check('barra de stats con 3 items', structure.stats === 3, 'stats=' + structure.stats);
   check('hero: lista de 4 servicios con ids',
     structure.heroSvc.length === 4 && structure.heroSvc.join(',') === 'desarrollo,sistemas,vps,soporte',
@@ -134,19 +136,18 @@ function check(name, ok, detail) {
     mainJsTxt.slice(0, 60));
 
   const openWa = async (sel) => {
-    for (let attempt = 0; attempt < 2; attempt++) {
-      try {
-        const [popup] = await Promise.all([
-          page.waitForEvent('popup', { timeout: 8000 }),
-          page.click(sel)
-        ]);
-        await popup.waitForURL(/wa\.me/, { timeout: 8000 }).catch(() => {});
-        const url = popup.url();
-        await popup.close().catch(() => {});
-        if (url && !url.startsWith('about:')) return url;
-      } catch (e) { /* reintento */ }
-    }
-    return 'no-popup';
+    const opens = await (async () => {
+      await page.evaluate(() => {
+        if (window.__waStub) return;
+        window.__waStub = true;
+        window.__waOpens = [];
+        window.open = function (u) { window.__waOpens.push(String(u)); return null; };
+      });
+      await page.click(sel);
+      await page.waitForTimeout(300);
+      return page.evaluate(() => window.__waOpens);
+    })();
+    return opens[opens.length - 1] || 'no-open';
   };
   const isFjWa = (u) =>
     u.startsWith('https://wa.me/50769527810') ||
