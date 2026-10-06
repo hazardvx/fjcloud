@@ -297,7 +297,7 @@
     .stats{
       background:var(--white);border-radius:var(--r-lg);
       box-shadow:0 24px 60px rgba(6,19,36,.18),0 2px 0 rgba(6,19,36,.02);
-      display:grid;grid-template-columns:repeat(5,1fr);
+      display:grid;grid-template-columns:repeat(3,1fr);
       padding:12px 8px;border:1px solid rgba(228,234,242,.9);
     }
     .stat{display:flex;align-items:center;gap:12px;padding:16px 16px}
@@ -319,28 +319,6 @@
     }
     .sect-head h2 .accent{color:var(--blue)}
     .sect-head p{color:var(--slate);font-size:16.5px;max-width:64ch}
-
-    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:24px}
-    .card{
-      background:var(--white);border:1px solid var(--line);border-radius:var(--r);
-      overflow:hidden;display:flex;flex-direction:column;
-      transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
-    }
-    .card:hover{transform:translateY(-7px);box-shadow:var(--shadow);border-color:rgba(28,100,240,.4)}
-    .card-media{height:172px;position:relative;overflow:hidden}
-    .card-media svg{width:100%;height:100%}
-    .card-body{padding:20px 20px 22px;display:flex;flex-direction:column;flex:1}
-    .card-head{display:flex;align-items:center;gap:12px;margin-bottom:11px}
-    .card-head .ico{width:30px;height:30px;color:var(--blue)}
-    .card-head h3{font-size:17px;font-weight:700;color:var(--ink);line-height:1.3}
-    .card-desc{color:var(--slate);font-size:14.5px;line-height:1.6;margin-bottom:15px}
-    .feat{display:grid;gap:9px;margin-bottom:20px}
-    .feat li{position:relative;padding-left:19px;font-size:13.8px;color:#3E4E66;font-weight:500}
-    .feat li::before{
-      content:"";position:absolute;left:0;top:7px;width:7.5px;height:7.5px;border-radius:50%;
-      background:var(--blue);box-shadow:0 0 0 3px rgba(28,100,240,.14);
-    }
-    .card .btn{margin-top:auto;min-height:47px;font-size:14.5px;border-radius:10px}
 
     .sectors-sec{background:var(--soft);border-block:1px solid var(--line)}
     .sectors{display:grid;grid-template-columns:repeat(auto-fit,minmax(122px,1fr));gap:16px}
@@ -466,9 +444,6 @@
       .f-grid{grid-template-columns:1fr;padding-top:44px}
       .stat-value{font-size:22px}
       .stat-value.is-text{font-size:17px}
-      .card-media{display:none}
-      .feat{grid-template-columns:1fr 1fr;gap:8px 16px}
-      .cards{gap:16px}
       .sect{padding:56px 0}
     }
     @media (max-width:440px){.stage-wrap{--s:.58}}
@@ -658,15 +633,15 @@
             <span>Sistemas Web</span>
             <span class="accent">para tu Empresa</span>
           </h1>
-          <p class="hero-sub">Soluciones digitales modernas, seguras y en la nube para todo tipo de empresas. Desde páginas web hasta sistemas empresariales personalizados.</p>
+          <p class="hero-sub">Hacemos páginas web, sistemas y servidores en la nube que optimizan tus procesos y te ahorran tiempo. Se ven bien en celular y computadora, con seguridad, copias de seguridad y soporte.</p>
           <ul class="checks">
-            <li><span class="tick"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg></span>Diseño moderno y responsivo</li>
-            <li><span class="tick"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg></span>Sistemas a medida según tu negocio</li>
-            <li><span class="tick"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg></span>Hosting VPS de alto rendimiento</li>
-            <li><span class="tick"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg></span>Seguridad, copias de seguridad y soporte</li>
+            <li id="desarrollo"><span class="tick"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg></span>Páginas Web Profesionales</li>
+            <li id="sistemas"><span class="tick"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg></span>Sistemas Empresariales</li>
+            <li id="vps"><span class="tick"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg></span>Servidores VPS en la Nube</li>
+            <li id="soporte"><span class="tick"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg></span>Seguridad y Mantenimiento</li>
           </ul>
           <div class="hero-cta">
-            <a class="btn btn-primary" href="#contacto">Solicitar un Sistema <svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn-primary js-wa" href="#contacto">Solicitar un Sistema <svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg></a>
             <a class="btn btn-ghost" href="#vps">Ver Servidores VPS</a>
           </div>
         </div>
@@ -780,21 +755,7 @@
     </section>
 
     <div class="stats-wrap container">
-      <div class="stats" role="list" aria-label="Cifras de confianza">
-        <div class="stat" role="listitem">
-          <svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>
-          <div>
-            <span class="stat-value" data-count="100" data-prefix="+">+100</span>
-            <span class="stat-label">Empresas Confían</span>
-          </div>
-        </div>
-        <div class="stat" role="listitem">
-          <svg class="ico" aria-hidden="true"><use href="#i-gear"/></svg>
-          <div>
-            <span class="stat-value" data-count="200" data-prefix="+">+200</span>
-            <span class="stat-label">Proyectos Desarrollados</span>
-          </div>
-        </div>
+      <div class="stats" role="list" aria-label="Garantías del servicio">
         <div class="stat" role="listitem">
           <svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg>
           <div>
@@ -818,257 +779,6 @@
         </div>
       </div>
     </div>
-
-    <section class="sect" id="servicios">
-      <div class="container">
-        <div class="sect-head reveal">
-          <h2>Nuestros <span class="accent">Servicios</span></h2>
-          <p>Soluciones completas en la nube para tu negocio, desde la idea hasta la implementación.</p>
-        </div>
-        <div class="cards">
-          <article class="card reveal" id="desarrollo" style="--d:.05s">
-            <div class="card-media">
-              <svg viewBox="0 0 320 172" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                <rect width="320" height="172" fill="#EAF2FF"/>
-                <circle cx="268" cy="34" r="52" fill="#D6E6FF"/>
-                <circle cx="40" cy="150" r="60" fill="#DCEAFF"/>
-                <g transform="translate(38 34)">
-                  <rect x="0" y="0" width="176" height="104" rx="7" fill="#0D1B2D"/>
-                  <rect x="6" y="6" width="164" height="86" rx="4" fill="#F7FAFF"/>
-                  <rect x="6" y="6" width="164" height="14" rx="4" fill="#0E2440"/>
-                  <circle cx="15" cy="13" r="2.4" fill="#FF5F57"/>
-                  <circle cx="23" cy="13" r="2.4" fill="#FEBC2E"/>
-                  <circle cx="31" cy="13" r="2.4" fill="#28C840"/>
-                  <rect x="42" y="10.5" width="58" height="5" rx="2.5" fill="rgba(255,255,255,.25)"/>
-                  <rect x="16" y="30" width="74" height="7" rx="3.5" fill="#0D1B2D"/>
-                  <rect x="16" y="42" width="56" height="7" rx="3.5" fill="#0D1B2D"/>
-                  <rect x="16" y="56" width="66" height="4" rx="2" fill="#9FB2CC"/>
-                  <rect x="16" y="64" width="48" height="4" rx="2" fill="#9FB2CC"/>
-                  <rect x="16" y="74" width="42" height="12" rx="6" fill="#1C64F0"/>
-                  <g>
-                    <rect x="104" y="34" width="56" height="52" rx="4" fill="#16345C"/>
-                    <rect x="110" y="42" width="18" height="38" rx="2" fill="#1C4785"/>
-                    <rect x="132" y="30" width="20" height="50" rx="2" fill="#16345C"/>
-                    <g fill="#48C6FF"><rect x="113" y="47" width="5" height="4" rx="1"/><rect x="121" y="47" width="5" height="4" rx="1"/><rect x="113" y="56" width="5" height="4" rx="1"/><rect x="136" y="37" width="5" height="4" rx="1"/><rect x="143" y="37" width="5" height="4" rx="1"/><rect x="136" y="47" width="5" height="4" rx="1"/><rect x="143" y="47" width="5" height="4" rx="1"/></g>
-                  </g>
-                  <rect x="0" y="104" width="176" height="7" rx="3.5" fill="#C7D6EC"/>
-                  <rect x="62" y="104" width="52" height="3.4" fill="#A9BEDC"/>
-                </g>
-                <g transform="translate(210 56)">
-                  <rect x="0" y="0" width="58" height="102" rx="11" fill="#0D1B2D"/>
-                  <rect x="4" y="5" width="50" height="92" rx="8" fill="#F7FAFF"/>
-                  <rect x="4" y="5" width="50" height="24" rx="8" fill="#1C64F0"/>
-                  <rect x="10" y="14" width="24" height="5" rx="2.5" fill="#fff"/>
-                  <rect x="10" y="37" width="38" height="6" rx="3" fill="#0D1B2D"/>
-                  <rect x="10" y="48" width="28" height="6" rx="3" fill="#0D1B2D"/>
-                  <rect x="10" y="62" width="38" height="4" rx="2" fill="#9FB2CC"/>
-                  <rect x="10" y="70" width="30" height="4" rx="2" fill="#9FB2CC"/>
-                  <rect x="10" y="82" width="26" height="9" rx="4.5" fill="#1C64F0"/>
-                </g>
-                <g transform="translate(272 84)">
-                  <rect x="0" y="0" width="36" height="66" rx="8" fill="#0D1B2D"/>
-                  <rect x="3" y="4" width="30" height="58" rx="6" fill="#F7FAFF"/>
-                  <rect x="3" y="4" width="30" height="16" rx="6" fill="#1C64F0"/>
-                  <rect x="8" y="26" width="20" height="4" rx="2" fill="#0D1B2D"/>
-                  <rect x="8" y="34" width="14" height="4" rx="2" fill="#9FB2CC"/>
-                  <rect x="8" y="46" width="16" height="7" rx="3.5" fill="#1C64F0"/>
-                </g>
-              </svg>
-            </div>
-            <div class="card-body">
-              <div class="card-head">
-                <svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg>
-                <h3>Páginas Web Profesionales</h3>
-              </div>
-              <p class="card-desc">Diseño moderno, rápido y adaptado a tu marca.</p>
-              <ul class="feat">
-                <li>Diseño responsivo</li>
-                <li>Optimización SEO</li>
-                <li>Integración con redes sociales</li>
-                <li>Formularios y más</li>
-              </ul>
-              <a class="btn btn-primary btn-block" href="#contacto">Más Información <svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-            </div>
-          </article>
-
-          <article class="card reveal" id="sistemas" style="--d:.15s">
-            <div class="card-media">
-              <svg viewBox="0 0 320 172" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                <rect width="320" height="172" fill="#EAF2FF"/>
-                <circle cx="56" cy="28" r="48" fill="#D6E6FF"/>
-                <circle cx="286" cy="150" r="56" fill="#DCEAFF"/>
-                <g transform="translate(46 26)">
-                  <rect x="0" y="0" width="228" height="122" rx="8" fill="#0D1B2D"/>
-                  <rect x="7" y="7" width="214" height="104" rx="4" fill="#0B1728"/>
-                  <rect x="7" y="7" width="46" height="104" fill="#0E2440"/>
-                  <rect x="16" y="18" width="28" height="6" rx="3" fill="#48C6FF"/>
-                  <rect x="16" y="34" width="28" height="5" rx="2.5" fill="rgba(255,255,255,.3)"/>
-                  <rect x="16" y="46" width="28" height="5" rx="2.5" fill="rgba(255,255,255,.3)"/>
-                  <rect x="16" y="58" width="28" height="5" rx="2.5" fill="rgba(255,255,255,.3)"/>
-                  <rect x="16" y="70" width="28" height="5" rx="2.5" fill="rgba(255,255,255,.3)"/>
-                  <g transform="translate(62 16)">
-                    <rect x="0" y="0" width="46" height="26" rx="4" fill="rgba(255,255,255,.07)"/>
-                    <rect x="54" y="0" width="46" height="26" rx="4" fill="rgba(255,255,255,.07)"/>
-                    <rect x="108" y="0" width="46" height="26" rx="4" fill="rgba(255,255,255,.07)"/>
-                    <rect x="6" y="7" width="20" height="4" rx="2" fill="rgba(255,255,255,.35)"/>
-                    <rect x="6" y="15" width="28" height="6" rx="3" fill="#48C6FF"/>
-                    <rect x="60" y="7" width="20" height="4" rx="2" fill="rgba(255,255,255,.35)"/>
-                    <rect x="60" y="15" width="26" height="6" rx="3" fill="#fff"/>
-                    <rect x="114" y="7" width="20" height="4" rx="2" fill="rgba(255,255,255,.35)"/>
-                    <rect x="114" y="15" width="24" height="6" rx="3" fill="#3DDB8F"/>
-                    <g transform="translate(0 36)">
-                      <rect x="0" y="0" width="96" height="52" rx="4" fill="rgba(255,255,255,.07)"/>
-                      <rect x="6" y="6" width="34" height="4" rx="2" fill="rgba(255,255,255,.3)"/>
-                      <rect x="8" y="36" width="10" height="12" rx="2" fill="#1C64F0"/>
-                      <rect x="23" y="28" width="10" height="20" rx="2" fill="#1C64F0"/>
-                      <rect x="38" y="32" width="10" height="16" rx="2" fill="#3D94FF"/>
-                      <rect x="53" y="20" width="10" height="28" rx="2" fill="#48C6FF"/>
-                      <rect x="68" y="24" width="10" height="24" rx="2" fill="#48C6FF"/>
-                    </g>
-                    <g transform="translate(104 36)">
-                      <rect x="0" y="0" width="50" height="52" rx="4" fill="rgba(255,255,255,.07)"/>
-                      <rect x="6" y="6" width="26" height="4" rx="2" fill="rgba(255,255,255,.3)"/>
-                      <rect x="6" y="16" width="38" height="5" rx="2.5" fill="rgba(255,255,255,.18)"/>
-                      <rect x="6" y="26" width="30" height="5" rx="2.5" fill="rgba(255,255,255,.18)"/>
-                      <rect x="6" y="36" width="34" height="5" rx="2.5" fill="rgba(255,255,255,.18)"/>
-                    </g>
-                  </g>
-                  <rect x="0" y="122" width="228" height="7" rx="3.5" fill="#C7D6EC"/>
-                  <rect x="86" y="122" width="56" height="3.4" fill="#A9BEDC"/>
-                </g>
-                <g transform="translate(282 96)">
-                  <path d="M10 26c-6 0-10-4-10-9s4-9 10-9c1-7 7-12 14-12 8 0 14 6 14 13 6 0 11 4 11 9s-5 9-11 9H10Z" fill="#1C64F0" opacity=".16"/>
-                </g>
-              </svg>
-            </div>
-            <div class="card-body">
-              <div class="card-head">
-                <svg class="ico" aria-hidden="true"><use href="#i-db"/></svg>
-                <h3>Sistemas Empresariales</h3>
-              </div>
-              <p class="card-desc">Desarrollamos sistemas web a medida para tu empresa.</p>
-              <ul class="feat">
-                <li>Gestión de datos</li>
-                <li>Facturación y reportes</li>
-                <li>Usuarios y permisos</li>
-                <li>Integración con otros sistemas</li>
-              </ul>
-              <a class="btn btn-primary btn-block" href="#contacto">Solicitar Desarrollo <svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-            </div>
-          </article>
-
-          <article class="card reveal" id="vps" style="--d:.25s">
-            <div class="card-media">
-              <svg viewBox="0 0 320 172" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                <rect width="320" height="172" fill="#081425"/>
-                <ellipse cx="160" cy="150" rx="130" ry="34" fill="#0E2440"/>
-                <circle cx="256" cy="30" r="70" fill="#0F2A4C" opacity=".7"/>
-                <circle cx="46" cy="140" r="60" fill="#0D2140" opacity=".8"/>
-                <g transform="translate(88 18)">
-                  <g transform="translate(0 0)">
-                    <rect x="0" y="0" width="144" height="36" rx="6" fill="#12294A" stroke="#1E3B66" stroke-width="1.5"/>
-                    <rect x="10" y="9" width="66" height="5" rx="2.5" fill="#28518C"/>
-                    <rect x="10" y="20" width="44" height="5" rx="2.5" fill="#1E3B66"/>
-                    <circle cx="122" cy="12" r="3.6" fill="#48C6FF"/>
-                    <circle cx="122" cy="24" r="3.6" fill="#3DDB8F"/>
-                    <rect x="86" y="8" width="20" height="20" rx="4" fill="#0B1D33"/>
-                    <path d="M92 18h8M96 14v8" stroke="#48C6FF" stroke-width="1.6" stroke-linecap="round"/>
-                  </g>
-                  <g transform="translate(0 44)">
-                    <rect x="0" y="0" width="144" height="36" rx="6" fill="#12294A" stroke="#1E3B66" stroke-width="1.5"/>
-                    <rect x="10" y="9" width="58" height="5" rx="2.5" fill="#28518C"/>
-                    <rect x="10" y="20" width="50" height="5" rx="2.5" fill="#1E3B66"/>
-                    <circle cx="122" cy="12" r="3.6" fill="#48C6FF"/>
-                    <circle cx="122" cy="24" r="3.6" fill="#FEBC2E"/>
-                    <rect x="86" y="8" width="20" height="20" rx="4" fill="#0B1D33"/>
-                    <path d="M91 20l5-6 4 4 5-7" stroke="#48C6FF" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                  </g>
-                  <g transform="translate(0 88)">
-                    <rect x="0" y="0" width="144" height="36" rx="6" fill="#12294A" stroke="#1E3B66" stroke-width="1.5"/>
-                    <rect x="10" y="9" width="70" height="5" rx="2.5" fill="#28518C"/>
-                    <rect x="10" y="20" width="38" height="5" rx="2.5" fill="#1E3B66"/>
-                    <circle cx="122" cy="12" r="3.6" fill="#48C6FF"/>
-                    <circle cx="122" cy="24" r="3.6" fill="#3DDB8F"/>
-                    <rect x="86" y="8" width="20" height="20" rx="4" fill="#0B1D33"/>
-                    <circle cx="96" cy="18" r="5" fill="none" stroke="#48C6FF" stroke-width="1.6"/>
-                  </g>
-                </g>
-                <g stroke="#48C6FF" stroke-width="1.4" opacity=".55" fill="none">
-                  <path d="M40 60h30M40 60v40M280 76h-26M280 76v34"/>
-                </g>
-                <circle cx="40" cy="60" r="3" fill="#48C6FF"/>
-                <circle cx="280" cy="76" r="3" fill="#48C6FF"/>
-                <path d="M0 156h320" stroke="#16345C" stroke-width="3"/>
-              </svg>
-            </div>
-            <div class="card-body">
-              <div class="card-head">
-                <svg class="ico" aria-hidden="true"><use href="#i-cloud-up"/></svg>
-                <h3>Servidores VPS en la Nube</h3>
-              </div>
-              <p class="card-desc">Alquila tu servidor con alta velocidad y máxima seguridad.</p>
-              <ul class="feat">
-                <li>SSD / NVMe de alto rendimiento</li>
-                <li>Baja latencia</li>
-                <li>Copias de seguridad</li>
-                <li>Escalabilidad según tu necesidad</li>
-              </ul>
-              <a class="btn btn-primary btn-block" href="#contacto">Ver Planes VPS <svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-            </div>
-          </article>
-
-          <article class="card reveal" id="soporte" style="--d:.35s">
-            <div class="card-media">
-              <svg viewBox="0 0 320 172" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                <rect width="320" height="172" fill="#081425"/>
-                <circle cx="160" cy="86" r="92" fill="#0D2140" opacity=".85"/>
-                <g stroke="#1C64F0" stroke-width="1.5" fill="none" opacity=".7">
-                  <path d="M16 44h48l16 16M16 128h48l16-16M304 44h-48l-16 16M304 128h-48l-16-16"/>
-                  <path d="M16 86h44M304 86h-44M160 8v22M160 164v-22"/>
-                </g>
-                <g fill="#48C6FF">
-                  <circle cx="16" cy="44" r="3.4"/><circle cx="16" cy="128" r="3.4"/>
-                  <circle cx="304" cy="44" r="3.4"/><circle cx="304" cy="128" r="3.4"/>
-                  <circle cx="160" cy="8" r="3.4"/><circle cx="160" cy="164" r="3.4"/>
-                </g>
-                <g stroke="#48C6FF" stroke-width="1.4" opacity=".6">
-                  <path d="M64 86h30M226 86h30"/>
-                </g>
-                <g transform="translate(112 34)">
-                  <path d="M48 0 4 14v34c0 27 18 52 44 60 26-8 44-33 44-60V14L48 0Z" fill="url(#shieldGrad)"/>
-                  <defs>
-                    <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0" stop-color="#3DA5FF"/>
-                      <stop offset="1" stop-color="#1554D6"/>
-                    </linearGradient>
-                  </defs>
-                  <path d="M48 8 12 20v27c0 22 15 43 36 50 21-7 36-28 36-50V20L48 8Z" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
-                  <rect x="32" y="46" width="32" height="26" rx="7" fill="#fff"/>
-                  <path d="M38 46v-8a10 10 0 0 1 20 0v8" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
-                  <circle cx="48" cy="58" r="4.6" fill="#1C64F0"/>
-                  <rect x="46" y="60" width="4" height="8" rx="2" fill="#1C64F0"/>
-                </g>
-                <ellipse cx="160" cy="150" rx="70" ry="10" fill="#1C64F0" opacity=".22"/>
-              </svg>
-            </div>
-            <div class="card-body">
-              <div class="card-head">
-                <svg class="ico" aria-hidden="true"><use href="#i-lock-shield"/></svg>
-                <h3>Seguridad y Mantenimiento</h3>
-              </div>
-              <p class="card-desc">Protegemos y mantenemos tus sistemas siempre en línea.</p>
-              <ul class="feat">
-                <li>Firewall y monitoreo 24/7</li>
-                <li>Copias de seguridad</li>
-                <li>Actualizaciones constantes</li>
-                <li>Soporte técnico en español</li>
-              </ul>
-              <a class="btn btn-primary btn-block" href="#contacto">Conocer más <svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
 
     <section class="sect sectors-sec" id="sectores">
       <div class="container">
@@ -1119,11 +829,11 @@
           <h2>Lleva tu negocio al siguiente nivel con <span class="accent">FJcloud.app</span></h2>
           <p>Soluciones tecnológicas reales, seguras y diseñadas para crecer contigo.</p>
           <div class="cta-btns">
-            <a class="btn btn-primary" href="mailto:contacto@fjcloud.app?subject=Cotizaci%C3%B3n%20de%20proyecto">Solicitar una Cotización <svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-            <a class="btn btn-ghost js-wa" href="#contacto">
+            <a class="btn btn-primary js-wa" href="#contacto">
               <svg class="wa-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-              Hablar por WhatsApp
+              Hablar por WhatsApp <svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg>
             </a>
+            <a class="btn btn-ghost" href="mailto:contacto@fjcloud.app?subject=Cotizaci%C3%B3n%20de%20proyecto">Solicitar una Cotización</a>
           </div>
         </div>
         <div class="cta-feats reveal" style="--d:.15s">

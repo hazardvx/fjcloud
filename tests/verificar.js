@@ -69,7 +69,7 @@ function check(name, ok, detail) {
   check('apple-touch-icon enlazado', meta.apple);
   check('exactamente un h1', meta.h1s.length === 1, JSON.stringify(meta.h1s));
   check('h1 contiene "Creamos Sistemas Web"', /Creamos Sistemas Web/.test(meta.h1s[0] || ''));
-  check('varios h2 de sección', meta.h2Count >= 3, 'h2=' + meta.h2Count);
+  check('varios h2 de sección', meta.h2Count >= 2, 'h2=' + meta.h2Count);
   check('sin ids duplicados', meta.dupIds.length === 0, meta.dupIds.join(','));
   check('anchors internos resuelven (sin # roto)', meta.brokenAnchors.length === 0, meta.brokenAnchors.join(','));
   check('svgs decorativos con aria-hidden', meta.svgNoAria.length === 0, meta.svgNoAria.join(','));
@@ -89,9 +89,7 @@ function check(name, ok, detail) {
     checks: document.querySelectorAll('.checks li').length,
     heroBtns: document.querySelectorAll('.hero-cta .btn').length,
     stats: document.querySelectorAll('.stat').length,
-    cards: document.querySelectorAll('.card').length,
-    cardBullets: [...document.querySelectorAll('.card')].map((c) => c.querySelectorAll('.feat li').length),
-    cardBtns: [...document.querySelectorAll('.card .btn')].map((b) => b.innerText.trim()),
+    heroSvc: [...document.querySelectorAll('.hero .checks li')].map((l) => l.id),
     sectors: document.querySelectorAll('.sector').length,
     ctaBtns: document.querySelectorAll('.cta-btns .btn').length,
     ctaFeats: document.querySelectorAll('.cta-feat').length,
@@ -105,10 +103,10 @@ function check(name, ok, detail) {
   check('menú móvil con 5 enlaces', structure.panelLinks === 5, 'panel=' + structure.panelLinks);
   check('hero: 4 puntos de lista', structure.checks === 4, 'checks=' + structure.checks);
   check('hero: 2 botones CTA', structure.heroBtns === 2, 'btns=' + structure.heroBtns);
-  check('barra de stats con 5 items', structure.stats === 5, 'stats=' + structure.stats);
-  check('servicios: 4 tarjetas', structure.cards === 4, 'cards=' + structure.cards);
-  check('servicios: 4 bullets por tarjeta', structure.cardBullets.every((n) => n === 4), structure.cardBullets.join(','));
-  check('servicios: 4 botones CTA', structure.cardBtns.length === 4 && structure.cardBtns.every((b) => b.length > 3), structure.cardBtns.join(' | '));
+  check('barra de stats con 3 items', structure.stats === 3, 'stats=' + structure.stats);
+  check('hero: lista de 4 servicios con ids',
+    structure.heroSvc.length === 4 && structure.heroSvc.join(',') === 'desarrollo,sistemas,vps,soporte',
+    structure.heroSvc.join(','));
   check('sectores: 8 opciones', structure.sectors === 8, 'sectors=' + structure.sectors);
   check('CTA: 2 botones', structure.ctaBtns === 2, 'ctaBtns=' + structure.ctaBtns);
   check('CTA: 4 rasgos destacados', structure.ctaFeats === 4, 'feats=' + structure.ctaFeats);
@@ -153,7 +151,7 @@ function check(name, ok, detail) {
   check('service worker registrado', swInfo.reg, JSON.stringify(swInfo));
 
   const anchorsOk = await page.evaluate(() => {
-    const ids = ['inicio', 'vps', 'desarrollo', 'sistemas', 'soporte', 'servicios', 'sectores', 'contacto'];
+    const ids = ['inicio', 'vps', 'desarrollo', 'sistemas', 'soporte', 'sectores', 'contacto'];
     return ids.every((id) => !!document.getElementById(id));
   });
   check('destinos de navegación existentes', anchorsOk);
@@ -168,8 +166,8 @@ function check(name, ok, detail) {
     stats: [...document.querySelectorAll('.stat-value[data-count]')].map((s) => s.textContent.trim())
   }));
   check('prefers-reduced-motion: todo visible sin animar', rm.all === rm.inn && rm.all > 0, rm.inn + '/' + rm.all);
-  check('contadores con valores finales (+100, +200, 99.9%)',
-    rm.stats[0] === '+100' && rm.stats[1] === '+200' && rm.stats[2] === '99.9%',
+  check('contadores con valor final (99.9%)',
+    rm.stats.length === 1 && rm.stats[0] === '99.9%',
     rm.stats.join(','));
   await ctxRM.close();
 
