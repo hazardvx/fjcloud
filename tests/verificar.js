@@ -134,18 +134,19 @@ function check(name, ok, detail) {
     mainJsTxt.slice(0, 60));
 
   const openWa = async (sel) => {
-    try {
-      const [popup] = await Promise.all([
-        page.waitForEvent('popup', { timeout: 5000 }),
-        page.click(sel)
-      ]);
-      await popup.waitForURL(/wa\.me/, { timeout: 5000 }).catch(() => {});
-      const url = popup.url();
-      await popup.close().catch(() => {});
-      return url;
-    } catch (e) {
-      return 'no-popup: ' + e.message;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const [popup] = await Promise.all([
+          page.waitForEvent('popup', { timeout: 8000 }),
+          page.click(sel)
+        ]);
+        await popup.waitForURL(/wa\.me/, { timeout: 8000 }).catch(() => {});
+        const url = popup.url();
+        await popup.close().catch(() => {});
+        if (url && !url.startsWith('about:')) return url;
+      } catch (e) { /* reintento */ }
     }
+    return 'no-popup';
   };
   const isFjWa = (u) =>
     u.startsWith('https://wa.me/50769527810') ||
