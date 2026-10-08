@@ -319,6 +319,92 @@ function check(name, ok, detail) {
   check('precios: sin errores de página', pErrors.length === 0, pErrors.join(' | '));
   await ctxP.close();
 
+  const ctxPa = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const pagePa = await ctxPa.newPage();
+  const paErrors = [];
+  pagePa.on('pageerror', (e) => paErrors.push(e.message));
+  let paDialog = '';
+  pagePa.on('dialog', async (d) => { paDialog = d.message(); await d.accept(); });
+  const respPa = await pagePa.goto(BASE + '/panel.html', { waitUntil: 'networkidle' });
+  check('panel: HTTP 200', respPa && respPa.status() === 200, 'status=' + (respPa && respPa.status()));
+  check('panel: CSP presente', !!(respPa && respPa.headers()['content-security-policy']));
+  const paNoindex = await pagePa.evaluate(() =>
+    ((document.querySelector('meta[name="robots"]') || {}).content || '').indexOf('noindex') >= 0);
+  check('panel: noindex (oculto a buscadores)', paNoindex);
+  const paGate = await pagePa.evaluate(() => ({
+    gateVisible: !document.getElementById('gate').hidden,
+    mainOculto: document.getElementById('list').children.length === 0 && document.getElementById('gate').hidden === false
+  }));
+  check('panel: gate de acceso visible al entrar', paGate.gateVisible, JSON.stringify(paGate));
+  await pagePa.fill('#gate-pin', 'wrong-pin');
+  await pagePa.click('#gate-enter');
+  await pagePa.waitForTimeout(200);
+  const paBad = await pagePa.evaluate(() => !document.getElementById('gate').hidden);
+  check('panel: PIN incorrecto no entra', paBad);
+  await pagePa.fill('#gate-pin', 'fjcloud');
+  await pagePa.click('#gate-enter');
+  await pagePa.waitForTimeout(400);
+  const paUnlocked = await pagePa.evaluate(() => document.getElementById('gate').hidden === true);
+  check('panel: PIN correcto desbloquea', paUnlocked);
+  const paEmpty = await pagePa.evaluate(() => document.getElementById('empty').classList.contains('show'));
+  check('panel: estado vacío amable', paEmpty);
+  await pagePa.click('#btn-nuevo');
+  await pagePa.waitForTimeout(350);
+  await pagePa.fill('#f-cliente', 'Clínica Prueba');
+  await pagePa.fill('#f-proyecto', 'Portal de Citas');
+  await pagePa.selectOption('#f-estado', 'proceso');
+  await pagePa.click('#btn-guardar');
+  await pagePa.waitForTimeout(500);
+  const paCreated = await pagePa.evaluate(() => ({
+    rows: document.getElementById('list').children.length,
+    total: document.getElementById('kpi-total').textContent,
+    pill: (document.querySelector('#list .pill') || {}).textContent || '',
+    modalCerrado: !document.getElementById('modal').classList.contains('open')
+  }));
+  check('panel: crear proyecto (fila + KPI + modal cerrado)',
+    paCreated.rows === 1 && paCreated.total === '1' && paCreated.pill === 'En proceso' && paCreated.modalCerrado,
+    JSON.stringify(paCreated));
+  await pagePa.reload({ waitUntil: 'networkidle' });
+  await pagePa.waitForTimeout(400);
+  const paPersist = await pagePa.evaluate(() => ({
+    desbloqueado: document.getElementById('gate').hidden === true,
+    rows: document.getElementById('list').children.length
+  }));
+  check('panel: persiste tras recargar (sesión + datos)', paPersist.desbloqueado && paPersist.rows === 1, JSON.stringify(paPersist));
+  await pagePa.fill('#q', 'prueba');
+  await pagePa.waitForTimeout(200);
+  const paSearch1 = await pagePa.evaluate(() => document.getElementById('list').children.length);
+  await pagePa.fill('#q', 'no-existe-xyz');
+  await pagePa.waitForTimeout(200);
+  const paSearch0 = await pagePa.evaluate(() => document.getElementById('list').children.length);
+  check('panel: búsqueda filtra (1 y 0 resultados)', paSearch1 === 1 && paSearch0 === 0, paSearch1 + '/' + paSearch0);
+  await pagePa.fill('#q', '');
+  await pagePa.click('.chip[data-estado="entregado"]');
+  await pagePa.waitForTimeout(200);
+  const paChip = await pagePa.evaluate(() => ({
+    rows: document.getElementById('list').children.length,
+    pressed: document.querySelector('.chip[data-estado="entregado"]').getAttribute('aria-pressed')
+  }));
+  check('panel: filtro por estado (chips aria-pressed)', paChip.rows === 0 && paChip.pressed === 'true', JSON.stringify(paChip));
+  await pagePa.click('.chip[data-estado="todos"]');
+  await pagePa.waitForTimeout(200);
+  await pagePa.click('#list .icon-btn--del');
+  await pagePa.waitForTimeout(400);
+  const paDeleted = await pagePa.evaluate(() => ({
+    rows: document.getElementById('list').children.length,
+    total: document.getElementById('kpi-total').textContent
+  }));
+  check('panel: eliminar proyecto (confirm + vacío)', paDeleted.rows === 0 && paDeleted.total === '0' && /Eliminar/.test(paDialog), JSON.stringify(paDeleted) + ' | ' + paDialog);
+  await pagePa.setViewportSize({ width: 390, height: 844 });
+  await pagePa.waitForTimeout(300);
+  const paMobile = await pagePa.evaluate(() => ({
+    noScroll: document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
+    nuevoVisible: document.getElementById('btn-nuevo').getBoundingClientRect().width > 0
+  }));
+  check('panel: móvil 390 sin scroll horizontal', paMobile.noScroll && paMobile.nuevoVisible, JSON.stringify(paMobile));
+  check('panel: sin errores de página', paErrors.length === 0, paErrors.join(' | '));
+  await ctxPa.close();
+
   const skip = await (async () => {
     const data = await page.evaluate(() => {
       const a = document.querySelector('.skip-link');

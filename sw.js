@@ -1,10 +1,13 @@
-const CACHE_NAME = 'fjcloud-v2';
+const CACHE_NAME = 'fjcloud-v3';
 
 const APP_SHELL = [
   '/',
   '/index.html',
   '/precios.html',
+  '/panel.html',
   '/js/main.js',
+  '/js/panel.js',
+  '/js/proyectos-store.js',
   '/manifest.json',
   '/icons/favicon.svg',
   '/icons/icon-192.png',
@@ -43,10 +46,10 @@ self.addEventListener('fetch', (event) => {
       fetch(req)
         .then((res) => {
           const copy = res.clone();
-          caches.open(CACHE_NAME).then((c) => c.put('/index.html', copy));
+          caches.open(CACHE_NAME).then((c) => c.put(req, copy));
           return res;
         })
-        .catch(() => caches.match('/index.html'))
+        .catch(() => caches.match(req).then((cached) => cached || caches.match('/index.html')))
     );
     return;
   }
