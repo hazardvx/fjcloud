@@ -75,13 +75,6 @@
     counters.forEach(function (el) { countObs.observe(el); });
   }
 
-  document.querySelectorAll('.js-clientes').forEach(function (el) {
-    el.addEventListener('click', function (e) {
-      e.preventDefault();
-      showToast('El Área de Clientes estará disponible próximamente.');
-    });
-  });
-
   document.querySelectorAll('.js-wa').forEach(function (el) {
     el.addEventListener('click', function (e) {
       e.preventDefault();

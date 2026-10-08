@@ -141,17 +141,6 @@
     .btn-precios:active{transform:scale(.97);transition-duration:.16s}
     .btn-precios[aria-current="page"]{background:rgba(255,255,255,.16);border-color:#fff}
 
-    .btn-clientes{
-      display:inline-flex;align-items:center;gap:9px;flex:none;
-      background:var(--blue);color:#fff;font-weight:600;font-size:15px;
-      padding:12px 22px;border-radius:11px;min-height:46px;
-      box-shadow:0 8px 22px rgba(28,100,240,.4);
-      transition:background .22s ease,transform .22s ease;
-    }
-    .btn-clientes:hover{background:var(--blue-hov);transform:translateY(-2px)}
-    .btn-clientes:active{transform:scale(.97);transition-duration:.16s}
-    .btn-clientes svg{width:17px;height:17px;fill:currentColor}
-
     .hero{
       position:relative;overflow:hidden;
       padding:calc(var(--header-h) + 54px) 0 132px;
@@ -399,7 +388,6 @@
     }
     @media (max-width:1020px){.stage-wrap{--s:.75}}
     @media (max-width:980px){
-      .btn-clientes{display:none}
       .hero-inner{grid-template-columns:minmax(0,1fr);gap:20px}
       .hero{padding-top:calc(var(--header-h) + 40px)}
       .hero-copy{text-align:center}
@@ -597,10 +585,6 @@
       </a>
       <div class="header-actions">
         <a class="btn-precios" href="precios.html">Precios</a>
-        <a class="btn-clientes js-clientes" href="#contacto">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-person"/></svg>
-          Área de Clientes
-        </a>
       </div>
     </div>
   </header>

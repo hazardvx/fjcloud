@@ -136,16 +136,17 @@
     .btn-precios:active{transform:scale(.97);transition-duration:.16s}
     .btn-precios[aria-current="page"]{background:rgba(255,255,255,.16);border-color:#fff}
 
-    .btn-clientes{
-      display:inline-flex;align-items:center;gap:9px;flex:none;
-      background:var(--blue);color:#fff;font-weight:600;font-size:15px;
-      padding:12px 22px;border-radius:11px;min-height:46px;
-      box-shadow:0 8px 22px rgba(28,100,240,.4);
-      transition:background .22s ease,transform .22s ease;
+    .btn-back{
+      display:inline-flex;align-items:center;gap:7px;flex:none;
+      background:rgba(255,255,255,.07);color:#fff;
+      border:1.5px solid rgba(255,255,255,.32);
+      font-weight:600;font-size:14.5px;
+      padding:10px 17px;border-radius:11px;min-height:42px;
+      transition:background .22s ease,transform .22s ease,border-color .22s ease;
     }
-    .btn-clientes:hover{background:var(--blue-hov);transform:translateY(-2px)}
-    .btn-clientes:active{transform:scale(.97);transition-duration:.16s}
-    .btn-clientes svg{width:17px;height:17px;fill:currentColor}
+    .btn-back:hover{background:rgba(255,255,255,.15);border-color:#fff;transform:translateY(-2px)}
+    .btn-back:active{transform:scale(.97);transition-duration:.16s}
+    .btn-back svg{width:16px;height:16px;transform:rotate(180deg)}
 
     .pr-hero{
       padding:calc(var(--header-h) + 46px) 0 96px;
@@ -247,6 +248,8 @@
     .plan-emp{--acc:var(--purple)}
 
     .pr-note{text-align:center;margin-top:36px;font-size:15px;color:var(--slate)}
+    .pr-note-alt{margin-top:14px}
+    .pr-note strong{color:var(--ink)}
     .pr-note a{color:var(--blue);font-weight:600;text-decoration:underline;text-underline-offset:3px}
     .pr-note a:hover{color:var(--blue-hov)}
 
@@ -280,12 +283,16 @@
     .js .reveal.in{opacity:1;transform:none}
 
     @media (max-width:980px){
-      .btn-clientes{display:none}
       .plans{grid-template-columns:1fr;max-width:520px;margin-inline:auto;gap:36px}
       .plan-pro{margin-top:0;padding-top:34px;padding-bottom:30px}
       .f-grid{grid-template-columns:1fr 1fr;gap:36px}
     }
     @media (max-width:600px){
+      .header-inner{gap:14px}
+      .brand svg{width:36px;height:31px}
+      .brand-name{font-size:19px}
+      .brand-tag{display:none}
+      .btn-back{padding:9px 13px;font-size:13.5px;gap:6px}
       .pr-hero{padding-top:calc(var(--header-h) + 34px);padding-bottom:78px}
       .pr-plans{margin-top:-44px}
       .plan{padding:30px 20px 24px}
@@ -371,11 +378,11 @@
         </span>
       </a>
       <div class="header-actions">
-        <a class="btn-precios" href="precios.html" aria-current="page">Precios</a>
-        <a class="btn-clientes js-clientes" href="index.html#contacto">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-person"/></svg>
-          Área de Clientes
+        <a class="btn-back" href="index.html">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg>
+          Volver
         </a>
+        <a class="btn-precios" href="precios.html" aria-current="page">Precios</a>
       </div>
     </div>
   </header>
@@ -397,7 +404,7 @@
           <p class="plan-for">Para pequeñas y medianas empresas</p>
           <div class="plan-price">
             <span class="pp-lab">Implementación desde</span>
-            <span class="pp-big">$399</span>
+            <span class="pp-big">$499</span>
             <span class="pp-sub">Pago único</span>
           </div>
           <div class="plan-month">
@@ -407,15 +414,11 @@
           </div>
           <ul class="plan-feats">
             <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Sistema web administrativo</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Usuarios y roles</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Gestión de clientes</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Inventario básico</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Ventas</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Clientes, ventas e inventario</li>
             <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Reportes y dashboard</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Notificaciones (Email/WhatsApp)</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Diseño personalizado</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Copias de seguridad</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Soporte técnico</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Usuarios y roles</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Notificaciones por WhatsApp</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Backups y soporte</li>
           </ul>
           <a class="btn plan-btn js-wa" href="index.html#contacto" data-text="Hola, me interesa el plan BUSINESS de FJcloud.app. ¿Me cuentan los detalles?">Elegir Business <svg class="arr" aria-hidden="true" viewBox="0 0 20 20"><use href="#i-arrow"/></svg></a>
         </article>
@@ -435,18 +438,12 @@
             <span class="pp-sub">USD / mes</span>
           </div>
           <ul class="plan-feats">
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Todo lo del plan BUSINESS</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Sistema totalmente personalizado</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Módulos según tu negocio</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Todo lo del plan Business</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Sistema 100% personalizado</li>
             <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Facturación y compras</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Inventario avanzado</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Reportes avanzados</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Integraciones (API, pasarela de pago)</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Automatizaciones</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>VPS dedicado (según necesidad)</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Copias de seguridad automáticas</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Integraciones (API y pagos)</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>VPS dedicado incluido</li>
             <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Soporte prioritario</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Capacitación y asesoría</li>
           </ul>
           <a class="btn plan-btn js-wa" href="index.html#contacto" data-text="Hola, me interesa el plan PRO de FJcloud.app. ¿Me cuentan los detalles?">Elegir Pro <svg class="arr" aria-hidden="true" viewBox="0 0 20 20"><use href="#i-arrow"/></svg></a>
         </article>
@@ -466,23 +463,21 @@
             <span class="pp-sub">USD / mes</span>
           </div>
           <ul class="plan-feats">
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Sistema 100% personalizado</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Múltiples usuarios</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Sistema a la medida total</li>
             <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Múltiples sucursales</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Módulos a la medida</li>
             <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Integraciones avanzadas</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>VPS / Servidor dedicado</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Servidor dedicado</li>
             <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Seguridad avanzada</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Copias de seguridad automáticas</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Soporte prioritario</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Mantenimiento evolutivo</li>
-            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Capacitación continua</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Soporte y capacitación</li>
           </ul>
           <a class="btn plan-btn js-wa" href="index.html#contacto" data-text="Hola, me interesa el plan EMPRESARIAL de FJcloud.app. ¿Me pueden enviar una cotización?">Solicitar cotización <svg class="arr" aria-hidden="true" viewBox="0 0 20 20"><use href="#i-arrow"/></svg></a>
         </article>
       </div>
 
       <p class="pr-note container reveal" style="--d:.26s">
+        <strong>Incluido en la mensualidad:</strong> hosting, dominio, copias de seguridad y soporte · Pagos con Yappy, ACH o transferencia
+      </p>
+      <p class="pr-note pr-note-alt container reveal" style="--d:.32s">
         ¿Necesitas algo a medida? <a class="js-wa" href="index.html#contacto" data-text="Hola, necesito un sistema a medida para mi empresa. ¿Podemos conversar?">Habla con nosotros por WhatsApp</a>.
       </p>
     </section>

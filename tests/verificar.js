@@ -88,6 +88,7 @@ function check(name, ok, detail) {
     heroBtns: document.querySelectorAll('.hero-cta .btn').length,
     heroBtnWa: !!document.querySelector('.hero-cta .btn .wa-ico'),
     preciosLink: !!document.querySelector('.header-inner a[href="precios.html"]'),
+    clientesBtn: !document.querySelector('.btn-clientes'),
     stats: document.querySelectorAll('.stat').length,
     heroSvc: [...document.querySelectorAll('.hero .checks li')].map((l) => l.id),
     sectors: document.querySelectorAll('.sector').length,
@@ -104,6 +105,7 @@ function check(name, ok, detail) {
   check('hero: 1 botón CTA', structure.heroBtns === 1, 'btns=' + structure.heroBtns);
   check('hero: botón CTA con ícono de WhatsApp', structure.heroBtnWa);
   check('header con botón Precios', structure.preciosLink);
+  check('header sin botón Área de Clientes', structure.clientesBtn);
   check('barra de stats con 3 items', structure.stats === 3, 'stats=' + structure.stats);
   check('hero: lista de 4 servicios con ids',
     structure.heroSvc.length === 4 && structure.heroSvc.join(',') === 'desarrollo,sistemas,vps,soporte',
@@ -269,16 +271,26 @@ function check(name, ok, detail) {
       waBtns: document.querySelectorAll('.plan-btn.js-wa').length,
       dataText: !!document.querySelector('.plan-btn[data-text]'),
       headerPrecios: !!document.querySelector('.header-inner .btn-precios[aria-current="page"]'),
+      backBtn: !!document.querySelector('.header-inner .btn-back[href="index.html"]'),
+      noClientes: !document.querySelector('.btn-clientes'),
+      feats: [...document.querySelectorAll('.plan-feats')].map((l) => l.children.length),
+      body: document.body.innerText.replace(/\s+/g, ' '),
       revealOk: reveals.length > 0 && reveals.every((r) => getComputedStyle(r).opacity === '1'),
       scrollOk: document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
       h2: document.querySelectorAll('h2').length
     };
   });
   check('precios: h1 "Planes y Precios"', /Planes y Precios/.test(pInfo.h1), pInfo.h1);
+  check('precios: botón Volver al inicio', pInfo.backBtn && pInfo.noClientes);
   check('precios: 3 planes con botones WhatsApp y data-text',
     pInfo.plans === 3 && pInfo.waBtns === 3 && pInfo.dataText,
     'plans=' + pInfo.plans + ' btns=' + pInfo.waBtns);
   check('precios: 3 h2 ( Business / Pro / Empresarial )', pInfo.h2 === 3, 'h2=' + pInfo.h2);
+  check('precios: 6 puntos por plan (listas cortas)',
+    pInfo.feats.length === 3 && pInfo.feats.every((n) => n === 6), JSON.stringify(pInfo.feats));
+  check('precios: Business desde $499', /\$499/.test(pInfo.body));
+  check('precios: mensualidad con detalle (hosting/dominio) y pagos locales',
+    /hosting, dominio/.test(pInfo.body) && /Yappy/.test(pInfo.body));
   check('precios: botón Precios activo en header', pInfo.headerPrecios);
   const pOpen = await (async () => {
     await pageP.evaluate(() => {
@@ -294,8 +306,16 @@ function check(name, ok, detail) {
   check('precios: reveals asentados y sin scroll horizontal', pInfo.revealOk && pInfo.scrollOk, JSON.stringify(pInfo));
   await pageP.setViewportSize({ width: 390, height: 844 });
   await pageP.waitForTimeout(400);
-  const pMobileOk = await pageP.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1);
-  check('precios: sin scroll horizontal en móvil 390px', pMobileOk);
+  const pMobileOk = await pageP.evaluate(() => {
+    const back = document.querySelector('.btn-back');
+    const r = back ? back.getBoundingClientRect() : null;
+    return {
+      noScroll: document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
+      backVisible: !!r && r.right <= window.innerWidth && r.width > 0
+    };
+  });
+  check('precios: sin scroll horizontal en móvil 390px', pMobileOk.noScroll, JSON.stringify(pMobileOk));
+  check('precios: botón Volver visible en móvil', pMobileOk.backVisible);
   check('precios: sin errores de página', pErrors.length === 0, pErrors.join(' | '));
   await ctxP.close();
 
