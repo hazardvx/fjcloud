@@ -86,7 +86,7 @@
     el.addEventListener('click', function (e) {
       e.preventDefault();
       if (WA_NUMERO) {
-        window.open('https://wa.me/' + WA_NUMERO + '?text=' + encodeURIComponent(WA_MENSAJE), '_blank', 'noopener');
+        window.open('https://wa.me/' + WA_NUMERO + '?text=' + encodeURIComponent(el.getAttribute('data-text') || WA_MENSAJE), '_blank', 'noopener');
       } else {
         showToast('WhatsApp: configura el número en js/main.js (WA_NUMERO).');
       }

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Planes y Precios — FJcloud.app</title>
+  <meta name="description" content="Planes de sistemas web para tu empresa: BUSINESS, PRO y EMPRESARIAL. Implementación desde $399 y mensualidades desde $50 USD/mes, con soporte en español.">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#061324">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:title" content="FJcloud.app — Planes y Precios">
+  <meta property="og:description" content="Elige el plan de sistema web que tu empresa necesita. Precios claros, implementación y soporte incluidos.">
+  <meta property="og:image" content="icons/og.png">
+  <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preload" href="fonts/poppins-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/poppins-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face{font-family:'Poppins';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/poppins-600.woff2') format('woff2')}
+    @font-face{font-family:'Poppins';font-style:normal;font-weight:700;font-display:swap;src:url('fonts/poppins-700.woff2') format('woff2')}
+    @font-face{font-family:'Poppins';font-style:normal;font-weight:800;font-display:swap;src:url('fonts/poppins-800.woff2') format('woff2')}
+    @font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/inter.woff2') format('woff2')}
+    @font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/inter.woff2') format('woff2')}
+    @font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/inter.woff2') format('woff2')}
+    @font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url('fonts/inter.woff2') format('woff2')}
+
+    :root{
+      --navy:#061324;
+      --navy-2:#0A1B30;
+      --navy-3:#0E2440;
+      --blue:#1C64F0;
+      --blue-hov:#1554D6;
+      --blue-soft:#EAF1FF;
+      --sky:#3D94FF;
+      --cyan:#48C6FF;
+      --gold:#F5B301;
+      --purple:#7C3AED;
+      --purple-soft:#F3EAFE;
+      --ink:#0D1B2D;
+      --slate:#57677E;
+      --line:#E4EAF2;
+      --soft:#F4F7FC;
+      --white:#fff;
+      --r:16px;
+      --r-lg:22px;
+      --shadow-sm:0 2px 10px rgba(10,27,48,.06);
+      --shadow:0 14px 34px rgba(10,27,48,.10);
+      --shadow-lg:0 30px 70px rgba(4,14,28,.45);
+      --container:1180px;
+      --font-d:'Poppins','Segoe UI',system-ui,sans-serif;
+      --font-b:'Inter','Segoe UI',system-ui,sans-serif;
+      --header-h:76px;
+    }
+
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:var(--font-b);
+      font-size:16px;
+      line-height:1.6;
+      color:var(--ink);
+      background:var(--white);
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+    }
+    img,svg{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+    ul{margin:0;padding:0;list-style:none}
+    h1,h2,h3{margin:0;font-family:var(--font-d);line-height:1.15;text-wrap:balance}
+    p{margin:0}
+    button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
+    a,button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+
+    .container{width:min(var(--container),100% - 40px);margin-inline:auto}
+
+    :focus-visible{outline:3px solid var(--sky);outline-offset:3px;border-radius:6px}
+
+    .skip-link{
+      position:fixed;top:-60px;left:16px;z-index:200;
+      background:var(--white);color:var(--ink);font-weight:600;
+      padding:12px 18px;border-radius:10px;box-shadow:var(--shadow);
+      transition:top .2s ease;
+    }
+    .skip-link:focus{top:14px}
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      min-height:50px;padding:13px 26px;border-radius:12px;
+      font-family:var(--font-b);font-weight:600;font-size:15.5px;line-height:1;
+      transition:transform .22s ease,background .22s ease,border-color .22s ease,box-shadow .22s ease,filter .22s ease;
+      text-align:center;
+    }
+    .btn .arr{width:18px;height:18px;transition:transform .25s ease;flex:none}
+    .btn:hover .arr{transform:translateX(4px)}
+    .btn:active{transform:scale(.97);transition-duration:.16s}
+
+    .ico{width:26px;height:26px;flex:none}
+
+    .site-header{
+      position:fixed;inset:0 0 auto 0;z-index:100;
+      height:var(--header-h);
+      display:flex;align-items:center;
+      background:transparent;
+      border-bottom:1px solid transparent;
+      transition:background .3s ease,border-color .3s ease,box-shadow .3s ease,backdrop-filter .3s ease;
+    }
+    .site-header.scrolled{
+      background:rgba(6,19,36,.88);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      border-bottom-color:rgba(255,255,255,.08);
+      box-shadow:0 10px 30px rgba(4,14,28,.35);
+    }
+    .header-inner{display:flex;align-items:center;gap:28px;width:min(var(--container),100% - 40px);margin-inline:auto}
+    .brand{display:flex;align-items:center;gap:11px;flex:none}
+    .brand svg{width:44px;height:38px}
+    .brand-name{font-family:var(--font-d);font-weight:700;font-size:21px;color:#fff;letter-spacing:-.01em;line-height:1}
+    .brand-name .dot{color:var(--sky)}
+    .brand-tag{display:block;font-size:8.5px;letter-spacing:.18em;color:rgba(255,255,255,.55);font-weight:500;margin-top:4px;text-transform:uppercase}
+
+    .header-actions{margin-left:auto;display:flex;align-items:center;gap:11px;flex:none}
+
+    .btn-precios{
+      display:inline-flex;align-items:center;flex:none;
+      background:rgba(255,255,255,.07);color:#fff;
+      border:1.5px solid rgba(255,255,255,.32);
+      font-weight:600;font-size:14.5px;
+      padding:10px 19px;border-radius:11px;min-height:42px;
+      transition:background .22s ease,transform .22s ease,border-color .22s ease;
+    }
+    .btn-precios:hover{background:rgba(255,255,255,.15);border-color:#fff;transform:translateY(-2px)}
+    .btn-precios:active{transform:scale(.97);transition-duration:.16s}
+    .btn-precios[aria-current="page"]{background:rgba(255,255,255,.16);border-color:#fff}
+
+    .btn-clientes{
+      display:inline-flex;align-items:center;gap:9px;flex:none;
+      background:var(--blue);color:#fff;font-weight:600;font-size:15px;
+      padding:12px 22px;border-radius:11px;min-height:46px;
+      box-shadow:0 8px 22px rgba(28,100,240,.4);
+      transition:background .22s ease,transform .22s ease;
+    }
+    .btn-clientes:hover{background:var(--blue-hov);transform:translateY(-2px)}
+    .btn-clientes:active{transform:scale(.97);transition-duration:.16s}
+    .btn-clientes svg{width:17px;height:17px;fill:currentColor}
+
+    .pr-hero{
+      padding:calc(var(--header-h) + 46px) 0 96px;
+      background-color:var(--navy);
+      background-image:
+        radial-gradient(860px 420px at 76% 8%, rgba(28,100,240,.32), transparent 62%),
+        radial-gradient(rgba(61,164,255,.14) 1.1px, transparent 1.5px),
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size:auto,24px 24px,52px 52px,52px 52px;
+      color:#fff;text-align:center;
+    }
+    .pr-head h1{
+      font-weight:800;font-size:clamp(2.2rem,4.2vw,3.1rem);
+      letter-spacing:-.022em;margin-bottom:16px;
+    }
+    .pr-head h1 .accent{color:var(--sky)}
+    .pr-head p{color:rgba(233,240,252,.86);font-size:clamp(1rem,1.2vw,1.1rem);max-width:56ch;margin-inline:auto}
+
+    .pr-plans{background:var(--soft);padding:0 0 88px;margin-top:-52px}
+    .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start;padding-top:28px}
+
+    .plan{
+      --acc:var(--blue);
+      position:relative;background:var(--white);border:1px solid var(--line);
+      border-radius:16px;padding:32px 24px 26px;text-align:center;
+      box-shadow:var(--shadow);
+      display:flex;flex-direction:column;gap:14px;
+    }
+    .plan-badge{
+      position:absolute;top:0;left:50%;transform:translate(-50%,-50%);
+      background:var(--blue);color:#fff;
+      font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+      padding:8px 16px;border-radius:999px;
+      display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+      box-shadow:0 8px 18px rgba(28,100,240,.35);
+    }
+    .plan-badge svg{width:14px;height:14px;color:var(--gold)}
+
+    .plan-ico{
+      width:56px;height:56px;border-radius:50%;
+      display:grid;place-items:center;margin:4px auto 0;
+    }
+    .plan-ico svg{width:27px;height:27px}
+    .plan-business .plan-ico{background:var(--blue-soft);color:var(--blue)}
+    .plan-pro .plan-ico{background:rgba(245,179,1,.15);color:var(--gold)}
+    .plan-emp .plan-ico{background:var(--purple-soft);color:var(--purple)}
+
+    .plan h2{font-size:1.38rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
+    .plan-business h2{color:var(--navy-3)}
+    .plan-pro h2{color:var(--gold)}
+    .plan-emp h2{color:var(--purple)}
+
+    .plan-for{
+      font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+      color:var(--slate);line-height:1.5;margin-top:-6px;
+    }
+    .plan-pro .plan-for{color:rgba(255,255,255,.72)}
+
+    .plan-price{
+      background:var(--navy-3);color:#fff;border-radius:12px;
+      padding:13px 10px 12px;display:grid;gap:1px;
+    }
+    .plan-pro .plan-price{background:#050E1C;border:1px solid rgba(245,179,1,.3)}
+    .plan-month{border-radius:12px;padding:13px 10px 12px;display:grid;gap:1px}
+    .plan-business .plan-month{background:var(--blue-soft);color:var(--blue)}
+    .plan-pro .plan-month{background:var(--gold);color:var(--ink)}
+    .plan-emp .plan-month{background:var(--purple-soft);color:var(--purple)}
+
+    .pp-lab{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+    .pp-big{
+      font-family:var(--font-d);font-weight:800;font-size:2.25rem;
+      line-height:1.08;letter-spacing:-.02em;font-variant-numeric:tabular-nums;
+    }
+    .pp-sub{font-size:12.5px;font-weight:600;opacity:.85}
+
+    .plan-feats{display:grid;gap:10px;text-align:left;margin-top:4px;flex:1}
+    .plan-feats li{display:flex;gap:10px;align-items:flex-start;font-size:14.3px;font-weight:500;line-height:1.45;color:var(--ink)}
+    .plan-pro .plan-feats li{color:rgba(255,255,255,.9)}
+    .pf-ck{
+      width:19px;height:19px;border-radius:50%;background:var(--acc);
+      display:grid;place-items:center;flex:none;margin-top:2px;
+    }
+    .pf-ck svg{width:10px;height:10px}
+
+    .plan-btn{width:100%;min-height:50px;border-radius:12px;font-size:15.5px;margin-top:6px}
+    .plan-btn:hover{transform:translateY(-2px);filter:brightness(1.07)}
+    .plan-btn:active{transform:scale(.97);transition-duration:.16s}
+    .plan-business .plan-btn{background:var(--blue);color:#fff;box-shadow:0 10px 24px rgba(28,100,240,.3)}
+    .plan-pro .plan-btn{background:var(--gold);color:var(--ink);box-shadow:0 10px 24px rgba(245,179,1,.3)}
+    .plan-emp .plan-btn{background:var(--purple);color:#fff;box-shadow:0 10px 24px rgba(124,58,237,.3)}
+
+    .plan-pro{
+      --acc:var(--gold);
+      background:#0B1B30;border-color:rgba(245,179,1,.4);color:#fff;
+      margin-top:-20px;padding-top:46px;padding-bottom:42px;z-index:1;
+      box-shadow:0 30px 70px rgba(4,14,28,.4);
+    }
+    .plan-emp{--acc:var(--purple)}
+
+    .pr-note{text-align:center;margin-top:36px;font-size:15px;color:var(--slate)}
+    .pr-note a{color:var(--blue);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+    .pr-note a:hover{color:var(--blue-hov)}
+
+    .site-footer{background:#04101E;color:rgba(233,240,252,.78);border-top:1px solid rgba(255,255,255,.07)}
+    .f-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:44px;padding:56px 0 40px}
+    .f-brand .brand{margin-bottom:16px}
+    .f-brand p{font-size:14.5px;line-height:1.7;color:rgba(233,240,252,.66);max-width:38ch}
+    .f-col h3{font-family:var(--font-d);font-size:15px;font-weight:600;color:#fff;margin-bottom:16px;letter-spacing:.02em}
+    .f-col a{font-size:14.5px;color:rgba(233,240,252,.72);transition:color .2s ease}
+    .f-col a:hover{color:var(--sky)}
+    .f-mail{display:flex;align-items:center;gap:9px;font-size:14.5px;color:rgba(233,240,252,.85);margin-bottom:14px}
+    .f-mail svg{width:17px;height:17px;fill:var(--sky)}
+    .f-note{font-size:13px;color:rgba(233,240,252,.55);line-height:1.6}
+    .f-bottom{
+      border-top:1px solid rgba(255,255,255,.08);
+      padding:20px 0 26px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
+      font-size:13px;color:rgba(233,240,252,.5);
+    }
+
+    .toast{
+      position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);z-index:300;
+      background:#0E2440;color:#fff;font-size:14.5px;font-weight:500;
+      padding:13px 22px;border-radius:12px;border:1px solid rgba(61,164,255,.4);
+      box-shadow:0 18px 40px rgba(4,14,28,.5);
+      opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease;
+      max-width:min(420px,calc(100vw - 40px));text-align:center;
+    }
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+
+    .js .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.65,.3,1);transition-delay:var(--d,0s)}
+    .js .reveal.in{opacity:1;transform:none}
+
+    @media (max-width:980px){
+      .btn-clientes{display:none}
+      .plans{grid-template-columns:1fr;max-width:520px;margin-inline:auto;gap:36px}
+      .plan-pro{margin-top:0;padding-top:34px;padding-bottom:30px}
+      .f-grid{grid-template-columns:1fr 1fr;gap:36px}
+    }
+    @media (max-width:600px){
+      .pr-hero{padding-top:calc(var(--header-h) + 34px);padding-bottom:78px}
+      .pr-plans{margin-top:-44px}
+      .plan{padding:30px 20px 24px}
+      .plan-pro{padding-top:34px;padding-bottom:28px}
+      .f-grid{grid-template-columns:1fr;padding-top:44px}
+    }
+    @media (max-width:400px){
+      .btn-precios{padding:9px 14px;font-size:13.5px}
+      .pp-big{font-size:2rem}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{animation-duration:.001s !important;animation-delay:0s !important;transition-duration:.001s !important;transition-delay:0s !important}
+      .js .reveal{opacity:1;transform:none}
+    }
+  </style>
+  <script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido principal</a>
+
+  <svg class="sprite" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+    <defs>
+      <linearGradient id="lgGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#3DA5FF"/>
+        <stop offset="1" stop-color="#1C64F0"/>
+      </linearGradient>
+    </defs>
+    <symbol id="logo-mark" viewBox="0 0 52 44">
+      <g fill="url(#lgGrad)">
+        <circle cx="16" cy="24" r="10"/>
+        <circle cx="27" cy="19" r="12"/>
+        <circle cx="38" cy="25" r="9"/>
+        <rect x="10" y="24" width="32" height="11" rx="5.5"/>
+      </g>
+      <rect x="15" y="16.5" width="21" height="15" rx="3" fill="#fff"/>
+      <rect x="18" y="20" width="10" height="2.4" rx="1.2" fill="#1C64F0"/>
+      <rect x="18" y="24.6" width="10" height="2.4" rx="1.2" fill="#1C64F0"/>
+      <circle cx="32.5" cy="21.2" r="1.5" fill="#48C6FF"/>
+      <circle cx="32.5" cy="25.8" r="1.5" fill="#48C6FF"/>
+    </symbol>
+    <symbol id="i-person" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 12.2a4.6 4.6 0 1 0 0-9.2 4.6 4.6 0 0 0 0 9.2Zm0 1.9c-4.1 0-7.7 2.1-7.7 4.7V21h15.4v-2.2c0-2.6-3.6-4.7-7.7-4.7Z"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m5.5 12.6 4.4 4.4L18.5 8"/>
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3.5 10h13M11.5 5l5 5-5 5"/>
+    </symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24">
+      <path d="M12 3.2a8.8 8.8 0 0 0-7.4 13.3L3.3 20.7l4.3-1.2A8.8 8.8 0 1 0 12 3.2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <g transform="translate(6.7 6.7) scale(0.44)" fill="currentColor">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+      </g>
+    </symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4.2-8 5-8-5V6l8 5 8-5v2.2Z"/>
+    </symbol>
+    <symbol id="i-crown" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M3 8.2l4.3 3.6L12 4.6l4.7 7.2 4.3-3.6-1.8 10.9H4.8L3 8.2Zm2.4 12h13.2v1.5H5.4V20.2Z"/>
+    </symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="currentColor">
+      <rect x="4.2" y="13" width="4.2" height="7.6" rx="1.2"/>
+      <rect x="9.9" y="8.6" width="4.2" height="12" rx="1.2"/>
+      <rect x="15.6" y="4.4" width="4.2" height="16.2" rx="1.2"/>
+    </symbol>
+    <symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="3.4" width="14" height="17.2" rx="1.6"/>
+      <path d="M9 7.4h2M13 7.4h2M9 11.4h2M13 11.4h2M9 15.4h2M13 15.4h2"/>
+      <path d="M10.4 20.6v-3.2h3.2v3.2"/>
+    </symbol>
+  </svg>
+
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="FJcloud.app — Volver al inicio">
+        <svg viewBox="0 0 52 44" aria-hidden="true"><use href="#logo-mark"/></svg>
+        <span>
+          <span class="brand-name">FJcloud<span class="dot">.app</span></span>
+          <span class="brand-tag">Tu tecnología en la nube</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a class="btn-precios" href="precios.html" aria-current="page">Precios</a>
+        <a class="btn-clientes js-clientes" href="index.html#contacto">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-person"/></svg>
+          Área de Clientes
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="pr-hero">
+      <div class="container pr-head">
+        <h1>Planes y <span class="accent">Precios</span></h1>
+        <p>Elige el plan que tu empresa necesita. Todos incluyen implementación, copias de seguridad y soporte en español.</p>
+      </div>
+    </section>
+
+    <section class="pr-plans" aria-label="Planes y precios">
+      <div class="container plans">
+        <article class="plan plan-business reveal" style="--d:.05s">
+          <span class="plan-badge"><svg aria-hidden="true"><use href="#i-crown"/></svg>Más solicitado</span>
+          <span class="plan-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-chart"/></svg></span>
+          <h2>Business</h2>
+          <p class="plan-for">Para pequeñas y medianas empresas</p>
+          <div class="plan-price">
+            <span class="pp-lab">Implementación desde</span>
+            <span class="pp-big">$399</span>
+            <span class="pp-sub">Pago único</span>
+          </div>
+          <div class="plan-month">
+            <span class="pp-lab">Mensualidad</span>
+            <span class="pp-big">$50</span>
+            <span class="pp-sub">USD / mes</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Sistema web administrativo</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Usuarios y roles</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Gestión de clientes</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Inventario básico</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Ventas</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Reportes y dashboard</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Notificaciones (Email/WhatsApp)</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Diseño personalizado</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Copias de seguridad</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Soporte técnico</li>
+          </ul>
+          <a class="btn plan-btn js-wa" href="index.html#contacto" data-text="Hola, me interesa el plan BUSINESS de FJcloud.app. ¿Me cuentan los detalles?">Elegir Business <svg class="arr" aria-hidden="true" viewBox="0 0 20 20"><use href="#i-arrow"/></svg></a>
+        </article>
+
+        <article class="plan plan-pro reveal" style="--d:.12s">
+          <span class="plan-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-crown"/></svg></span>
+          <h2>Pro</h2>
+          <p class="plan-for">Sistema completo para empresas</p>
+          <div class="plan-price">
+            <span class="pp-lab">Implementación desde</span>
+            <span class="pp-big">$1,200</span>
+            <span class="pp-sub">Pago único</span>
+          </div>
+          <div class="plan-month">
+            <span class="pp-lab">Mensualidad</span>
+            <span class="pp-big">$79</span>
+            <span class="pp-sub">USD / mes</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Todo lo del plan BUSINESS</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Sistema totalmente personalizado</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Módulos según tu negocio</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Facturación y compras</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Inventario avanzado</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Reportes avanzados</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Integraciones (API, pasarela de pago)</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Automatizaciones</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>VPS dedicado (según necesidad)</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Copias de seguridad automáticas</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Soporte prioritario</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Capacitación y asesoría</li>
+          </ul>
+          <a class="btn plan-btn js-wa" href="index.html#contacto" data-text="Hola, me interesa el plan PRO de FJcloud.app. ¿Me cuentan los detalles?">Elegir Pro <svg class="arr" aria-hidden="true" viewBox="0 0 20 20"><use href="#i-arrow"/></svg></a>
+        </article>
+
+        <article class="plan plan-emp reveal" style="--d:.19s">
+          <span class="plan-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-building"/></svg></span>
+          <h2>Empresarial</h2>
+          <p class="plan-for">Soluciones a gran escala</p>
+          <div class="plan-price">
+            <span class="pp-lab">Implementación desde</span>
+            <span class="pp-big">$1,800</span>
+            <span class="pp-sub">Pago único</span>
+          </div>
+          <div class="plan-month">
+            <span class="pp-lab">Mensualidad</span>
+            <span class="pp-big">$159</span>
+            <span class="pp-sub">USD / mes</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Sistema 100% personalizado</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Múltiples usuarios</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Múltiples sucursales</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Módulos a la medida</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Integraciones avanzadas</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>VPS / Servidor dedicado</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Seguridad avanzada</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Copias de seguridad automáticas</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Soporte prioritario</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Mantenimiento evolutivo</li>
+            <li><span class="pf-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>Capacitación continua</li>
+          </ul>
+          <a class="btn plan-btn js-wa" href="index.html#contacto" data-text="Hola, me interesa el plan EMPRESARIAL de FJcloud.app. ¿Me pueden enviar una cotización?">Solicitar cotización <svg class="arr" aria-hidden="true" viewBox="0 0 20 20"><use href="#i-arrow"/></svg></a>
+        </article>
+      </div>
+
+      <p class="pr-note container reveal" style="--d:.26s">
+        ¿Necesitas algo a medida? <a class="js-wa" href="index.html#contacto" data-text="Hola, necesito un sistema a medida para mi empresa. ¿Podemos conversar?">Habla con nosotros por WhatsApp</a>.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container f-grid">
+      <div class="f-brand">
+        <span class="brand">
+          <svg viewBox="0 0 52 44" aria-hidden="true"><use href="#logo-mark"/></svg>
+          <span>
+            <span class="brand-name">FJcloud<span class="dot">.app</span></span>
+            <span class="brand-tag">Tu tecnología en la nube</span>
+          </span>
+        </span>
+        <p>Diseñamos, desarrollamos y hospedamos la presencia digital de tu empresa, con soporte cercano en cada etapa.</p>
+      </div>
+      <div class="f-col">
+        <h3>Contacto</h3>
+        <a class="f-mail" href="mailto:contacto@fjcloud.app">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mail"/></svg>
+          contacto@fjcloud.app
+        </a>
+        <a class="f-mail js-wa" href="https://wa.me/50769527810?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20los%20servicios%20de%20FJcloud.app." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
+          +507 6952-7810 · FMORAEDITION
+        </a>
+        <a class="f-mail" href="https://wa.me/50762190387" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
+          +507 6219-0387 · Hazard.dev
+        </a>
+        <p class="f-note">Respondemos en menos de 24&nbsp;horas, de lunes a viernes. Soporte técnico en español.</p>
+      </div>
+    </div>
+    <div class="container f-bottom">
+      <span>© <span id="year">2026</span> FJcloud.app — Todos los derechos reservados</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>

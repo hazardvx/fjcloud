@@ -3,6 +3,7 @@ const CACHE_NAME = 'fjcloud-v2';
 const APP_SHELL = [
   '/',
   '/index.html',
+  '/precios.html',
   '/js/main.js',
   '/manifest.json',
   '/icons/favicon.svg',

@@ -87,6 +87,7 @@ function check(name, ok, detail) {
     checks: document.querySelectorAll('.checks li').length,
     heroBtns: document.querySelectorAll('.hero-cta .btn').length,
     heroBtnWa: !!document.querySelector('.hero-cta .btn .wa-ico'),
+    preciosLink: !!document.querySelector('.header-inner a[href="precios.html"]'),
     stats: document.querySelectorAll('.stat').length,
     heroSvc: [...document.querySelectorAll('.hero .checks li')].map((l) => l.id),
     sectors: document.querySelectorAll('.sector').length,
@@ -102,6 +103,7 @@ function check(name, ok, detail) {
   check('hero: 4 puntos de lista', structure.checks === 4, 'checks=' + structure.checks);
   check('hero: 1 botón CTA', structure.heroBtns === 1, 'btns=' + structure.heroBtns);
   check('hero: botón CTA con ícono de WhatsApp', structure.heroBtnWa);
+  check('header con botón Precios', structure.preciosLink);
   check('barra de stats con 3 items', structure.stats === 3, 'stats=' + structure.stats);
   check('hero: lista de 4 servicios con ids',
     structure.heroSvc.length === 4 && structure.heroSvc.join(',') === 'desarrollo,sistemas,vps,soporte',
@@ -245,6 +247,57 @@ function check(name, ok, detail) {
   });
   check('escena del hero escalada en móvil (no desborda)', stageScaled > 150 && stageScaled < 500, 'h=' + stageScaled);
   await ctxM.close();
+
+  const ctxP = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const pageP = await ctxP.newPage();
+  const pErrors = [];
+  pageP.on('pageerror', (e) => pErrors.push(e.message));
+  const respP = await pageP.goto(BASE + '/precios.html', { waitUntil: 'networkidle' });
+  check('precios: HTTP 200', respP && respP.status() === 200, 'status=' + (respP && respP.status()));
+  check('precios: CSP presente', !!(respP && respP.headers()['content-security-policy']));
+  await pageP.evaluate(() => {
+    document.documentElement.style.scrollBehavior = 'auto';
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+  await pageP.waitForTimeout(1300);
+  const pInfo = await pageP.evaluate(() => {
+    const h1 = ((document.querySelector('h1') || {}).innerText || '').replace(/\s+/g, ' ');
+    const reveals = [...document.querySelectorAll('.reveal')];
+    return {
+      h1,
+      plans: document.querySelectorAll('.plan').length,
+      waBtns: document.querySelectorAll('.plan-btn.js-wa').length,
+      dataText: !!document.querySelector('.plan-btn[data-text]'),
+      headerPrecios: !!document.querySelector('.header-inner .btn-precios[aria-current="page"]'),
+      revealOk: reveals.length > 0 && reveals.every((r) => getComputedStyle(r).opacity === '1'),
+      scrollOk: document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
+      h2: document.querySelectorAll('h2').length
+    };
+  });
+  check('precios: h1 "Planes y Precios"', /Planes y Precios/.test(pInfo.h1), pInfo.h1);
+  check('precios: 3 planes con botones WhatsApp y data-text',
+    pInfo.plans === 3 && pInfo.waBtns === 3 && pInfo.dataText,
+    'plans=' + pInfo.plans + ' btns=' + pInfo.waBtns);
+  check('precios: 3 h2 ( Business / Pro / Empresarial )', pInfo.h2 === 3, 'h2=' + pInfo.h2);
+  check('precios: botón Precios activo en header', pInfo.headerPrecios);
+  const pOpen = await (async () => {
+    await pageP.evaluate(() => {
+      window.__waOpens = [];
+      window.open = function (u) { window.__waOpens.push(String(u)); return null; };
+    });
+    await pageP.click('.plan-business .plan-btn');
+    await pageP.waitForTimeout(300);
+    return pageP.evaluate(() => window.__waOpens[0] || '');
+  })();
+  check('precios: botón Business abre WA con mensaje del plan',
+    /plan BUSINESS/.test(decodeURIComponent(pOpen)), pOpen.slice(0, 100));
+  check('precios: reveals asentados y sin scroll horizontal', pInfo.revealOk && pInfo.scrollOk, JSON.stringify(pInfo));
+  await pageP.setViewportSize({ width: 390, height: 844 });
+  await pageP.waitForTimeout(400);
+  const pMobileOk = await pageP.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1);
+  check('precios: sin scroll horizontal en móvil 390px', pMobileOk);
+  check('precios: sin errores de página', pErrors.length === 0, pErrors.join(' | '));
+  await ctxP.close();
 
   const skip = await (async () => {
     const data = await page.evaluate(() => {
